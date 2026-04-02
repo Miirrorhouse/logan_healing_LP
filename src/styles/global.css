@@ -3,6 +3,7 @@
 @theme {
   --font-sans: "Space Grotesk", system-ui, sans-serif;
   --font-serif: "Source Serif 4", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
   --color-navy: #252466;
   --color-navy-dark: #1e1d54;

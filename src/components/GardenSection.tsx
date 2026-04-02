@@ -4,6 +4,11 @@ import { useScroll, useMotionValueEvent } from 'framer-motion';
 const LINE1 = 'Your Mind Is A';
 const LINE2 = 'Garden';
 
+/** Idle: light grey at 10% opacity (not 0); ramps to solid white. Bright grey reads better at 0.1 on video. */
+const LETTER_IDLE_COLOR = 'rgb(30 30 40)';
+const LETTER_IDLE_OPACITY = 0.12;
+const LETTER_REVEAL_COLOR = 'rgb(18 18 24)';
+
 function randomThresholds(count: number, min: number, max: number): number[] {
   return Array.from({ length: count }, () => min + Math.random() * (max - min));
 }
@@ -41,7 +46,7 @@ export default function GardenSection() {
     const tick = () => {
       if (video.readyState >= 2 && video.duration) {
         const diff = targetTimeRef.current - video.currentTime;
-        if (Math.abs(diff) > 0.001) seek(video.currentTime + diff * 0.18);
+        if (Math.abs(diff) > 0.001) seek(video.currentTime + diff * 0.08);
       }
       rafRef.current = requestAnimationFrame(tick);
     };
@@ -50,23 +55,30 @@ export default function GardenSection() {
     return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
-  useMotionValueEvent(scrollYProgress, 'change', (progress) => {
-    const video = videoRef.current;
-    if (video?.duration) targetTimeRef.current = progress * video.duration;
-
+  const applyLetterStyles = (progress: number) => {
     line1Refs.current.forEach((span, i) => {
       if (!span) return;
       const visible = progress >= thresholds1[i];
-      span.style.opacity = visible ? '1' : '0';
-      span.style.filter = visible ? 'blur(0px)' : 'blur(16px)';
+      span.style.opacity = visible ? '1' : String(LETTER_IDLE_OPACITY);
+      span.style.color = visible ? LETTER_REVEAL_COLOR : LETTER_IDLE_COLOR;
     });
 
     line2Refs.current.forEach((span, i) => {
       if (!span) return;
       const visible = progress >= thresholds2[i];
-      span.style.opacity = visible ? '1' : '0';
-      span.style.filter = visible ? 'blur(0px)' : 'blur(16px)';
+      span.style.opacity = visible ? '1' : String(LETTER_IDLE_OPACITY);
+      span.style.color = visible ? LETTER_REVEAL_COLOR : LETTER_IDLE_COLOR;
     });
+  };
+
+  useEffect(() => {
+    applyLetterStyles(scrollYProgress.get());
+  }, [scrollYProgress, thresholds1, thresholds2]);
+
+  useMotionValueEvent(scrollYProgress, 'change', (progress) => {
+    const video = videoRef.current;
+    if (video?.duration) targetTimeRef.current = progress * video.duration;
+    applyLetterStyles(progress);
   });
 
   return (
@@ -76,7 +88,7 @@ export default function GardenSection() {
         <video
           ref={videoRef}
           className="absolute inset-0 w-full h-full object-cover"
-          src="/videos/garden.mp4"
+          src="/videos/garden_light.mp4"
           muted
           playsInline
           preload="auto"
@@ -87,8 +99,8 @@ export default function GardenSection() {
 
           {/* Line 1 */}
           <div
-            className="font-serif font-normal leading-[1.08] tracking-[-0.01em] text-white"
-            style={{ fontSize: 'clamp(2.4rem, 5vw, 4.5rem)' }}
+            className="font-serif font-normal leading-[1.08] tracking-[-0.01em]"
+            style={{ fontSize: 'clamp(1.6rem, 3vw, 2.8rem)' }}
             aria-label={LINE1}
           >
             {LINE1.split('').map((char, i) => (
@@ -97,9 +109,9 @@ export default function GardenSection() {
                 ref={(el) => { line1Refs.current[i] = el; }}
                 style={{
                   display: 'inline-block',
-                  opacity: 0,
-                  filter: 'blur(16px)',
-                  transition: 'opacity 0.4s ease, filter 0.4s ease',
+                  color: LETTER_IDLE_COLOR,
+                  opacity: LETTER_IDLE_OPACITY,
+                  transition: 'opacity 0.4s ease, color 0.4s ease',
                   whiteSpace: char === ' ' ? 'pre' : 'normal',
                 }}
               >
@@ -110,8 +122,8 @@ export default function GardenSection() {
 
           {/* Line 2 */}
           <div
-            className="font-serif font-normal leading-[1.08] tracking-[-0.01em] text-white"
-            style={{ fontSize: 'clamp(2.4rem, 5vw, 4.5rem)' }}
+            className="font-serif font-normal leading-[1.08] tracking-[-0.01em]"
+            style={{ fontSize: 'clamp(1.6rem, 3vw, 2.8rem)' }}
             aria-label={LINE2}
           >
             {LINE2.split('').map((char, i) => (
@@ -120,9 +132,9 @@ export default function GardenSection() {
                 ref={(el) => { line2Refs.current[i] = el; }}
                 style={{
                   display: 'inline-block',
-                  opacity: 0,
-                  filter: 'blur(16px)',
-                  transition: 'opacity 0.4s ease, filter 0.4s ease',
+                  color: LETTER_IDLE_COLOR,
+                  opacity: LETTER_IDLE_OPACITY,
+                  transition: 'opacity 0.4s ease, color 0.4s ease',
                 }}
               >
                 {char}

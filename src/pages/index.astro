@@ -2,6 +2,7 @@
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import GardenSection from '../components/GardenSection';
+import OptionsSection from '../components/OptionsSection';
 import '../styles/global.css';
 ---
 
@@ -16,11 +17,12 @@ import '../styles/global.css';
     <meta name="description" content="A healing-centered space to rediscover who you are beneath the patterns." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet" />
   </head>
   <body style="background-color: #ffffff;" class="antialiased">
     <Navbar client:only="react" />
     <Hero client:only="react" />
     <GardenSection client:only="react" />
+    <OptionsSection client:only="react" />
   </body>
 </html>
