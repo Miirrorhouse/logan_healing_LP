@@ -20,6 +20,10 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# large video assets — serve locally, do not commit
+public/videos/
+src/assets/video/
+
 # jetbrains setting folder
 .idea/
 .env.local
