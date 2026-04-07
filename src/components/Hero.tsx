@@ -1,6 +1,5 @@
 import { useRef, useMemo, useState, useEffect, useSyncExternalStore } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
-import { GlobeHemisphereWest } from '@phosphor-icons/react';
 import AnimatedGradientBackground from './AnimatedGradientBackground';
 import { gradientStore } from '../stores/gradientStore';
 import PastelSquareGridBackground from './PastelSquareGridBackground';
@@ -248,7 +247,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.75, ease }}
-        className="relative z-10 flex flex-col items-center gap-2 pb-10"
+        className="relative z-10 flex flex-col items-center gap-0 pb-10"
       >
         <span className="text-[16px] text-zinc-400 font-sans">
           Scroll Down to Explore
@@ -257,7 +256,15 @@ export default function Hero() {
           animate={{ y: [0, 5, 0] }}
           transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <GlobeHemisphereWest weight="light" className="w-5 h-5 text-zinc-400" />
+          <video
+            src="/videos/gem_vid_5.mov"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-20 h-20 object-contain"
+            aria-hidden="true"
+          />
         </motion.div>
       </motion.div>
     </section>

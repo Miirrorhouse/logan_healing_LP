@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import { ArrowRight, ArrowDown, ArrowUp } from '@phosphor-icons/react';
 import PastelSquareGridBackground from './PastelSquareGridBackground';
 
@@ -55,7 +56,80 @@ const stats = [
   },
 ];
 
+function RandomRevealHeading({ text, className }: { text: string; className?: string }) {
+  const ref = useRef<HTMLHeadingElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const delays = useMemo(
+    () => text.split('').map(() => 0.05 + Math.random() * 0.7),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+  return (
+    <h2 ref={ref} className={className}>
+      {text.split('').map((char, i) => (
+        <motion.span
+          key={i}
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.5, delay: delays[i], ease: [0.32, 0.72, 0, 1] }}
+          style={{ display: 'inline', whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+        >
+          {char}
+        </motion.span>
+      ))}
+    </h2>
+  );
+}
+
+const CYCLE_MS = 5000;
+
+function StatArrow({ trend, isActive }: { trend: 'up' | 'down'; isActive: boolean }) {
+  return (
+    <div className="relative flex h-9 w-9 shrink-0 items-center justify-center">
+      <div className="absolute inset-0 rounded-full bg-zinc-100" />
+      <svg
+        className="absolute inset-0 w-full h-full -rotate-90"
+        viewBox="0 0 36 36"
+        aria-hidden="true"
+      >
+        <motion.circle
+          key={isActive ? 'active' : 'idle'}
+          cx="18" cy="18" r="15"
+          fill="none"
+          stroke="#60a5fa"
+          strokeWidth="2"
+          strokeLinecap="round"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: isActive ? 1 : 0 }}
+          transition={{ duration: isActive ? CYCLE_MS / 1000 : 0, ease: 'linear' }}
+        />
+      </svg>
+      <span className="relative z-10 text-zinc-900">
+        {trend === 'up'
+          ? <ArrowUp className="w-4 h-4" weight="bold" />
+          : <ArrowDown className="w-4 h-4" weight="bold" />}
+      </span>
+    </div>
+  );
+}
+
 export default function OptionsSection() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const startCycle = (fromIndex?: number) => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (fromIndex !== undefined) setActiveIndex(fromIndex);
+    intervalRef.current = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % stats.length);
+    }, CYCLE_MS);
+  };
+
+  useEffect(() => {
+    startCycle();
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <section
       id="discover"
@@ -64,19 +138,21 @@ export default function OptionsSection() {
     >
       <div className="max-w-[1300px] mx-auto">
         <motion.div
-          className="flex flex-col items-center text-center mb-8 md:mb-10"
+          className="flex flex-col items-center text-center mb-24 md:mb-32"
           {...fadeUp}
           transition={{ ...fadeUp.transition, delay: 0.05 }}
         >
           <span className="mb-5 inline-block rounded-full bg-zinc-100 px-4 py-1.5 font-sans text-[16px] font-medium text-zinc-500">
             Our options
           </span>
-          <h2
-            id="options-heading"
-            className="font-serif font-normal text-zinc-800 text-[clamp(2.5rem,5.5vw,3.75rem)] leading-[1.08] tracking-[-0.02em] max-w-2xl"
-          >
-            Where your deepest work takes root
-          </h2>
+          <RandomRevealHeading
+            text="Where your deepest work takes root"
+            className="font-serif font-normal text-zinc-800 text-[clamp(2.5rem,5.5vw,3.75rem)] leading-[1.08] tracking-[-0.02em] max-w-2xl mb-8 text-center"
+          />
+
+          <p className="font-sans font-normal text-zinc-500 text-[16px] leading-relaxed max-w-xl">
+            Ten kilograms lighter. Breath in the belly. Shoulders that finally let go — and a quiet sense that you're no longer at war with where you are.
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6 mb-20 md:mb-28">
@@ -87,8 +163,10 @@ export default function OptionsSection() {
               className="group relative overflow-hidden rounded-[8px] aspect-[640/463] flex flex-col justify-start p-8 md:p-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 active:scale-[0.99] transition-transform duration-200"
               style={{ background: item.gradient }}
               aria-label={item.ariaLabel}
-              {...fadeUp}
-              transition={{ ...fadeUp.transition, delay: 0.12 + i * 0.08 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.65, delay: 0.12 + i * 0.08, ease }}
             >
               {item.video && (
                 <video
@@ -105,6 +183,9 @@ export default function OptionsSection() {
               {/* Dark overlay — fades out on hover */}
               <span className="absolute inset-0 bg-black/30 transition-opacity duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:opacity-0 pointer-events-none" aria-hidden="true" />
 
+              {/* Top gradient — fades in on hover to protect text legibility */}
+              <span className="absolute inset-x-0 top-0 h-40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 100%)' }} aria-hidden="true" />
+
               {/* Square grid overlay — fades out on hover */}
               <span className="absolute inset-0 transition-opacity duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:opacity-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <PastelSquareGridBackground className="absolute inset-0 h-full w-full pointer-events-none mix-blend-screen opacity-60" />
@@ -115,7 +196,7 @@ export default function OptionsSection() {
                 <span className={`font-mono text-[12px] md:text-[13px] tracking-wide uppercase ${item.tagClass}`}>
                   {item.tag}
                 </span>
-                <h3 className="font-serif font-normal text-white text-[clamp(1.3rem,2.5vw,1.875rem)] leading-tight max-w-[18ch]">
+                <h3 className="font-sans font-normal text-white text-[clamp(1.3rem,2.5vw,1.875rem)] leading-tight max-w-[18ch]">
                   {item.title}
                 </h3>
               </div>
@@ -143,19 +224,21 @@ export default function OptionsSection() {
           </p>
         </motion.div>
 
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0"
-          {...fadeUp}
-          transition={{ ...fadeUp.transition, delay: 0.1 }}
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0">
           {stats.map((stat, i) => (
-            <div
+            <motion.div
               key={stat.value}
-              className={`relative px-2 sm:px-4 lg:px-8 text-center lg:text-left ${
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.65, delay: i * 0.12, ease }}
+              onClick={() => startCycle(i)}
+              onMouseEnter={() => startCycle(i)}
+              className={`group relative px-2 sm:px-4 lg:px-8 text-center lg:text-left cursor-pointer ${
                 i > 0 ? 'lg:border-l lg:border-zinc-200' : ''
               }`}
             >
-              <div className="flex flex-row items-center gap-3 justify-center lg:justify-start mb-4">
+              <div className={`flex flex-row items-center gap-3 justify-center lg:justify-start mb-4 transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeIndex === i ? 'opacity-100' : 'opacity-40'}`}>
                 <div className="flex items-center gap-1">
                   <span className="font-sans font-normal text-zinc-800 text-[48px] leading-none tracking-tight">
                     {stat.number}
@@ -166,34 +249,15 @@ export default function OptionsSection() {
                     </span>
                   )}
                 </div>
-                <span
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-900"
-                  aria-hidden="true"
-                >
-                  {stat.trend === 'up' ? (
-                    <ArrowUp className="w-4 h-4" weight="bold" />
-                  ) : (
-                    <ArrowDown className="w-4 h-4" weight="bold" />
-                  )}
-                </span>
+                <StatArrow trend={stat.trend} isActive={activeIndex === i} />
               </div>
-              <p className="font-sans text-[16px] leading-relaxed text-zinc-500 max-w-[260px] mx-auto lg:mx-0">
+              <p className={`font-sans text-[16px] leading-relaxed text-zinc-500 max-w-[260px] mx-auto lg:mx-0 transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeIndex === i ? 'opacity-100' : 'opacity-40'}`}>
                 {stat.copy}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="mt-20 md:mt-24 flex justify-center"
-          {...fadeUp}
-          transition={{ ...fadeUp.transition, delay: 0.06 }}
-        >
-          <span
-            className="block h-0.5 w-12 rounded-full bg-[#2563eb]"
-            aria-hidden="true"
-          />
-        </motion.div>
       </div>
     </section>
   );

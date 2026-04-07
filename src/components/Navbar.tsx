@@ -75,7 +75,7 @@ export default function Navbar() {
 
               <a
                 href="#get-started"
-                className="inline-flex items-center rounded-full bg-white px-5 py-2 text-[16px] font-medium text-zinc-900 font-sans transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-zinc-100 active:scale-[0.98]"
+                className="inline-flex items-center rounded-full bg-white border border-zinc-200 px-5 py-2 text-[16px] font-medium text-zinc-900 font-sans transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-zinc-300 hover:bg-zinc-50 active:scale-[0.98]"
               >
                 Get Started
               </a>
