@@ -29,8 +29,8 @@ const gridVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.07,
-      delayChildren: 0.1,
+      staggerChildren: 0.09,
+      delayChildren: 0.2,
     },
   },
 };
@@ -76,7 +76,7 @@ export default function ServicesSection() {
           variants={gridVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
+          viewport={{ once: true, margin: '-180px' }}
         >
           {services.map((service) => (
             <motion.div
