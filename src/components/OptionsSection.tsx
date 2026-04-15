@@ -56,7 +56,7 @@ const stats = [
   },
 ];
 
-function RandomRevealHeading({ text, className }: { text: string; className?: string }) {
+function RandomRevealHeading({ text, className, style }: { text: string; className?: string; style?: React.CSSProperties }) {
   const ref = useRef<HTMLHeadingElement>(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   const delays = useMemo(
@@ -65,7 +65,7 @@ function RandomRevealHeading({ text, className }: { text: string; className?: st
     []
   );
   return (
-    <h2 ref={ref} className={className}>
+    <h2 ref={ref} className={className} style={style}>
       {text.split('').map((char, i) => (
         <motion.span
           key={i}
@@ -86,7 +86,7 @@ const CYCLE_MS = 5000;
 function StatArrow({ trend, isActive }: { trend: 'up' | 'down'; isActive: boolean }) {
   return (
     <div className="relative flex h-9 w-9 shrink-0 items-center justify-center">
-      <div className="absolute inset-0 rounded-full bg-zinc-100" />
+      <div className="absolute inset-0 rounded-full" style={{ backgroundColor: 'rgba(240,235,224,0.08)' }} />
       <svg
         className="absolute inset-0 w-full h-full -rotate-90"
         viewBox="0 0 36 36"
@@ -104,7 +104,7 @@ function StatArrow({ trend, isActive }: { trend: 'up' | 'down'; isActive: boolea
           transition={{ duration: isActive ? CYCLE_MS / 1000 : 0, ease: 'linear' }}
         />
       </svg>
-      <span className="relative z-10 text-zinc-900">
+      <span className="relative z-10" style={{ color: 'rgba(240,235,224,0.7)' }}>
         {trend === 'up'
           ? <ArrowUp className="w-4 h-4" weight="bold" />
           : <ArrowDown className="w-4 h-4" weight="bold" />}
@@ -133,7 +133,8 @@ export default function OptionsSection() {
   return (
     <section
       id="discover"
-      className="relative bg-white text-zinc-900 py-24 md:py-32 px-6 sm:px-8"
+      className="relative py-24 md:py-32 px-6 sm:px-8"
+      style={{ backgroundColor: '#0d1b3e' }}
       aria-labelledby="options-heading"
     >
       <div className="max-w-[1300px] mx-auto">
@@ -142,15 +143,16 @@ export default function OptionsSection() {
           {...fadeUp}
           transition={{ ...fadeUp.transition, delay: 0.05 }}
         >
-          <span className="mb-5 inline-block rounded-full bg-zinc-100 px-4 py-1.5 font-sans text-[16px] font-medium text-zinc-500">
+          <span className="mb-5 inline-block rounded-full px-4 py-1.5 font-sans text-[16px] font-medium" style={{ backgroundColor: 'rgba(240,235,224,0.08)', color: 'rgba(240,235,224,0.5)' }}>
             Our options
           </span>
           <RandomRevealHeading
             text="Where your deepest work takes root"
-            className="font-serif font-normal text-zinc-800 text-[clamp(2.5rem,5.5vw,3.75rem)] leading-[1.08] tracking-[-0.02em] max-w-2xl mb-8 text-center"
+            className="font-serif font-normal text-[clamp(2.5rem,5.5vw,3.75rem)] leading-[1.08] tracking-[-0.02em] max-w-2xl mb-8 text-center"
+            style={{ color: '#f0ebe0' }}
           />
 
-          <p className="font-sans font-normal text-zinc-500 text-[16px] leading-relaxed max-w-xl">
+          <p className="font-sans font-normal text-[16px] leading-relaxed max-w-xl" style={{ color: 'rgba(240,235,224,0.5)' }}>
             Ten kilograms lighter. Breath in the belly. Shoulders that finally let go — and a quiet sense that you're no longer at war with where you are.
           </p>
         </motion.div>
@@ -219,7 +221,7 @@ export default function OptionsSection() {
           {...fadeUp}
           transition={{ ...fadeUp.transition, delay: 0.08 }}
         >
-          <p className="font-sans text-[13px] md:text-sm text-zinc-500">
+          <p className="font-sans text-[13px] md:text-sm" style={{ color: 'rgba(240,235,224,0.4)' }}>
             Why this works
           </p>
         </motion.div>
@@ -235,23 +237,23 @@ export default function OptionsSection() {
               onClick={() => startCycle(i)}
               onMouseEnter={() => startCycle(i)}
               className={`group relative px-2 sm:px-4 lg:px-8 text-center lg:text-left cursor-pointer ${
-                i > 0 ? 'lg:border-l lg:border-zinc-200' : ''
+                i > 0 ? 'lg:border-l lg:border-white/10' : ''
               }`}
             >
               <div className={`flex flex-row items-center gap-3 justify-center lg:justify-start mb-4 transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeIndex === i ? 'opacity-100' : 'opacity-40'}`}>
                 <div className="flex items-center gap-1">
-                  <span className="font-sans font-normal text-zinc-800 text-[48px] leading-none tracking-tight">
+                  <span className="font-sans font-normal text-[48px] leading-none tracking-tight" style={{ color: '#f0ebe0' }}>
                     {stat.number}
                   </span>
                   {stat.suffix && (
-                    <span className="font-sans font-normal text-zinc-800 text-[24px] leading-none tracking-tight self-center">
+                    <span className="font-sans font-normal text-[24px] leading-none tracking-tight self-center" style={{ color: '#f0ebe0' }}>
                       {stat.suffix}
                     </span>
                   )}
                 </div>
                 <StatArrow trend={stat.trend} isActive={activeIndex === i} />
               </div>
-              <p className={`font-sans text-[16px] leading-relaxed text-zinc-500 max-w-[260px] mx-auto lg:mx-0 transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeIndex === i ? 'opacity-100' : 'opacity-40'}`}>
+              <p className={`font-sans text-[16px] leading-relaxed max-w-[260px] mx-auto lg:mx-0 transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeIndex === i ? 'opacity-100' : 'opacity-40'}`} style={{ color: 'rgba(240,235,224,0.55)' }}>
                 {stat.copy}
               </p>
             </motion.div>

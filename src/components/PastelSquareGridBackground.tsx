@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 
-/** Derived from Hero gradient: periwinkle → lavender → sky blue */
+/** Derived from Hero gradient: deep navy → steel blue → sky blue */
 const PASTELS: ReadonlyArray<readonly [number, number, number]> = [
-  [196, 190, 243], // #c4bef3 — soft periwinkle
-  [165, 180, 252], // #a5b4fc — indigo-300
+  [30,  60, 138],  // #1e3c8a — deep navy
+  [20,  40, 100],  // #142864 — darker navy
   [147, 197, 253], // #93c5fd — blue-300
   [96,  165, 250], // #60a5fa — blue-400
-  [221, 214, 247], // #ddd6f7 — light lavender
-  [237, 234, 251], // #edeafb — palest lavender
+  [180, 196, 232], // #b4c4e8 — soft steel-blue
+  [220, 228, 245], // #dce4f5 — pale navy tint
 ];
 
 /** Wider cell = more air between dots */

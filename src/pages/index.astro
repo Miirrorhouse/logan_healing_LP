@@ -1,9 +1,15 @@
 ---
 import Navbar from '../components/Navbar';
-import Hero from '../components/Hero';
-import GardenSection from '../components/GardenSection';
+import SmoothScroll from '../components/SmoothScroll';
+import HeroContainer from '../components/HeroContainer';
 import OptionsSection from '../components/OptionsSection';
 import ServicesSection from '../components/ServicesSection';
+import AboutSection from '../components/AboutSection';
+import HowItWorksSection from '../components/HowItWorksSection';
+import TestimonialsSection from '../components/TestimonialsSection';
+import FAQSection from '../components/FAQSection';
+import ContactSection from '../components/ContactSection';
+import Footer from '../components/Footer';
 import '../styles/global.css';
 ---
 
@@ -20,11 +26,17 @@ import '../styles/global.css';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet" />
   </head>
-  <body style="background-color: #ffffff;" class="antialiased">
+  <body style="background-color: #0d1b3e;" class="antialiased">
+    <SmoothScroll client:only="react" />
     <Navbar client:only="react" />
-    <Hero client:only="react" />
-    <GardenSection client:only="react" />
+    <HeroContainer client:only="react" />
+    <AboutSection client:only="react" />
     <OptionsSection client:only="react" />
     <ServicesSection client:only="react" />
+    <HowItWorksSection client:only="react" />
+    <TestimonialsSection client:only="react" />
+    <FAQSection client:only="react" />
+    <ContactSection client:only="react" />
+    <Footer client:only="react" />
   </body>
 </html>
