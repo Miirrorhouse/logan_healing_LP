@@ -1,6 +1,69 @@
 import { motion } from 'framer-motion';
+import { Quotes } from '@phosphor-icons/react';
 
 const ease = [0.32, 0.72, 0, 1] as const;
+
+// Palette — elevated Organic Earth & Luminous Aura
+const CREAM = '#f5f0e6';
+const NAVY = '#0d1b3e';
+const GOLD = '#bf9b4f';
+
+const testimonials = [
+  {
+    name: 'Maya R.',
+    location: 'San Francisco, CA',
+    service: 'Life Activation',
+    quote:
+      "I came to Logan carrying years of grief I didn't know how to release. After just three sessions, I felt a lightness I hadn't experienced in a decade. He holds space with such depth and wisdom, I always leave feeling genuinely renewed.",
+  },
+  {
+    name: 'James T.',
+    location: 'Portland, OR',
+    service: 'Chakra Awakening',
+    quote:
+      "As a skeptic, I wasn't sure what to expect. But the results were undeniable. My chronic shoulder tension dissolved in one session, and I slept deeply for the first time in months. Logan's intuition is remarkable.",
+  },
+  {
+    name: 'Priya K.',
+    location: 'New York, NY',
+    service: 'Spark of Life Healing',
+    quote:
+      "The Spark of Life remote session was just as powerful as being in the room. Logan's ability to tune into what I needed, even across thousands of miles, was extraordinary. I felt the energy shift in real time.",
+  },
+  {
+    name: 'Elena M.',
+    location: 'Austin, TX',
+    service: 'Full Spirit Activation',
+    quote:
+      'The sessions were transformative. Each one built on the last, and by the end I felt like a completely different person, more grounded, more present, more myself. I cannot recommend Logan highly enough.',
+  },
+  {
+    name: 'David L.',
+    location: 'Seattle, WA',
+    service: 'Tree of Life Awakening',
+    quote:
+      "The Tree of Life Awakening was unlike anything I've experienced. It reached places that no therapy ever had. I left feeling profoundly peaceful, deeply rested, and more myself than I've felt in years.",
+  },
+  {
+    name: 'Amara N.',
+    location: 'Chicago, IL',
+    service: 'Soul Retrieval',
+    quote:
+      "After my Soul Retrieval session, I noticed a significant shift in my anxiety levels. Old patterns that had plagued me for years began to loosen. Logan's skill and compassion are evident in every moment of the work.",
+  },
+];
+
+function StarRating() {
+  return (
+    <div className="flex gap-0.5" aria-label="5 out of 5 stars">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <span key={i} className="text-sm" style={{ color: GOLD }}>
+          ★
+        </span>
+      ))}
+    </div>
+  );
+}
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -8,111 +71,100 @@ const fadeUp = {
   viewport: { once: true, margin: '-60px' },
 };
 
-const testimonials = [
-  {
-    quote: 'I came to Logan carrying years of grief I didn\'t know how to put down. By the third session something had genuinely shifted. I felt lighter in a way I can\'t fully explain — like a weight I\'d forgotten I was holding had finally been set down.',
-    name: 'Sarah M.',
-    detail: 'Soul Retrieval & Aura Clearing',
-  },
-  {
-    quote: 'The Spark of Life remote session was just as powerful as being in the room. Logan\'s presence — even across the miles — created a container of safety and depth I hadn\'t expected. The days following were noticeably different.',
-    name: 'James T.',
-    detail: 'Spark of Life Healing (Remote)',
-  },
-  {
-    quote: 'The sessions were transformative. Each one built on the last, and by the end I felt like a completely different person — more grounded, more present, more myself. I cannot recommend Logan highly enough.',
-    name: 'Rachel K.',
-    detail: 'Full Life Activation Series',
-  },
-  {
-    quote: 'The Tree of Life Awakening was unlike anything I\'ve ever experienced. There are no adequate words for what moved through me. I left feeling connected to something ancient and deeply familiar at the same time.',
-    name: 'Marcus D.',
-    detail: 'Tree of Life Awakening',
-  },
-  {
-    quote: 'After my Soul Retrieval session, I noticed a significant shift in my anxiety levels. Old patterns that had plagued me for years began to loosen. Logan\'s skill and care throughout the process was extraordinary.',
-    name: 'Priya N.',
-    detail: 'Soul Retrieval',
-  },
-];
-
 export default function TestimonialsSection() {
   return (
-    <section className="py-24 md:py-32 px-6 sm:px-8" style={{ backgroundColor: '#f0ebe0' }}>
-      <div className="max-w-[1300px] mx-auto">
+    <section
+      id="testimonials"
+      className="relative overflow-hidden py-24 md:py-32 px-6 sm:px-8"
+      style={{ backgroundColor: NAVY }}
+    >
+      {/* Orbs */}
+      <div
+        className="absolute top-20 left-1/4 w-72 h-72 rounded-full blur-3xl pointer-events-none"
+        style={{ backgroundColor: 'rgba(196,160,160,0.07)' }}
+      />
+      <div
+        className="absolute bottom-40 right-10 w-56 h-56 rounded-full blur-3xl pointer-events-none"
+        style={{ backgroundColor: 'rgba(191,155,79,0.08)' }}
+      />
 
+      <div className="relative max-w-[1300px] mx-auto">
         {/* Header */}
-        <div className="mb-14 md:mb-20">
-          <motion.div
-            {...fadeUp}
-            transition={{ duration: 0.5, ease }}
-            className="inline-block rounded-full px-4 py-1.5 mb-5"
-            style={{ backgroundColor: '#e4ddd0' }}
+        <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center mb-14">
+          <p
+            className="font-sans text-[12px] font-semibold uppercase tracking-[0.3em] mb-4"
+            style={{ color: GOLD }}
           >
-            <span className="font-sans text-[16px] font-medium" style={{ color: 'rgba(13,27,62,0.5)' }}>
-              Voices of Transformation
-            </span>
-          </motion.div>
-
-          <motion.h2
-            {...fadeUp}
-            transition={{ duration: 0.65, ease, delay: 0.05 }}
-            className="font-serif font-normal text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.1] tracking-[-0.02em] max-w-xl"
-            style={{ color: '#0d1b3e' }}
-          >
-            Real experiences from those who have walked this path.
-          </motion.h2>
-        </div>
-
-        {/* Featured large testimonial */}
-        <motion.div
-          {...fadeUp}
-          transition={{ duration: 0.65, ease, delay: 0.1 }}
-          className="rounded-[8px] p-8 md:p-12 mb-6"
-          style={{ backgroundColor: '#0d1b3e' }}
-        >
-          <p className="font-serif italic text-[clamp(1.15rem,2.2vw,1.5rem)] leading-relaxed mb-8 max-w-3xl" style={{ color: '#f0ebe0' }}>
-            "{testimonials[2].quote}"
+            Client Stories
           </p>
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-full flex items-center justify-center text-[13px] font-medium font-sans" style={{ backgroundColor: 'rgba(240,235,224,0.12)', color: '#f0ebe0' }}>
-              {testimonials[2].name.charAt(0)}
-            </div>
-            <div>
-              <p className="font-sans text-[15px] font-medium" style={{ color: '#f0ebe0' }}>{testimonials[2].name}</p>
-              <p className="font-sans text-[13px]" style={{ color: 'rgba(240,235,224,0.5)' }}>{testimonials[2].detail}</p>
-            </div>
-          </div>
+          <h2
+            className="font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.1] tracking-[-0.02em] mb-4"
+            style={{ color: CREAM }}
+          >
+            Voices of Transformation
+          </h2>
+          <p
+            className="font-serif italic text-lg max-w-xl mx-auto"
+            style={{ color: 'rgba(245,240,230,0.7)' }}
+          >
+            Real experiences from those who have walked this path
+          </p>
+          <div
+            className="w-20 h-px mx-auto mt-6"
+            style={{
+              background:
+                'linear-gradient(to right, transparent, rgba(191,155,79,0.6), transparent)',
+            }}
+          />
         </motion.div>
 
-        {/* Grid of remaining testimonials */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {[testimonials[0], testimonials[1], testimonials[3], testimonials[4]].map((t, i) => (
+        {/* Testimonial cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {testimonials.map((t, i) => (
             <motion.div
               key={t.name}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.55, ease, delay: 0.05 + i * 0.07 }}
-              className="rounded-[8px] p-6 md:p-8 flex flex-col justify-between gap-6"
-              style={{ backgroundColor: '#e8e1d4' }}
+              transition={{ duration: 0.65, ease, delay: i * 0.08 }}
+              className="backdrop-blur-sm rounded-2xl p-6 md:p-7 transition-all duration-300 hover:-translate-y-1"
+              style={{
+                backgroundColor: 'rgba(245,240,230,0.07)',
+                border: '1px solid rgba(245,240,230,0.12)',
+              }}
             >
-              <p className="font-serif italic text-[1.05rem] leading-relaxed" style={{ color: '#0d1b3e' }}>
+              {/* Quote icon */}
+              <Quotes size={28} weight="fill" className="mb-4" style={{ color: 'rgba(191,155,79,0.5)' }} />
+
+              {/* Stars */}
+              <StarRating />
+
+              {/* Quote text */}
+              <p
+                className="font-serif italic text-base leading-relaxed my-4"
+                style={{ color: 'rgba(245,240,230,0.88)' }}
+              >
                 "{t.quote}"
               </p>
-              <div className="flex items-center gap-3">
-                <div className="h-7 w-7 rounded-full flex items-center justify-center text-[12px] font-medium font-sans" style={{ backgroundColor: '#0d1b3e', color: '#f0ebe0' }}>
-                  {t.name.charAt(0)}
-                </div>
-                <div>
-                  <p className="font-sans text-[14px] font-medium" style={{ color: '#0d1b3e' }}>{t.name}</p>
-                  <p className="font-sans text-[13px]" style={{ color: 'rgba(13,27,62,0.45)' }}>{t.detail}</p>
-                </div>
+
+              {/* Attribution */}
+              <div className="pt-4" style={{ borderTop: '1px solid rgba(245,240,230,0.15)' }}>
+                <p className="font-sans font-semibold text-sm" style={{ color: CREAM }}>
+                  {t.name}
+                </p>
+                <p className="font-sans font-light text-xs" style={{ color: 'rgba(245,240,230,0.55)' }}>
+                  {t.location}
+                </p>
+                <p
+                  className="font-sans text-[0.55rem] font-semibold uppercase tracking-[0.2em] mt-1"
+                  style={{ color: GOLD }}
+                >
+                  {t.service}
+                </p>
               </div>
             </motion.div>
           ))}
         </div>
-
       </div>
     </section>
   );

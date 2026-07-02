@@ -9,10 +9,9 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.9, delay, ease },
 });
 
-const H1_BEFORE = 'Finally meet ';
-const H1_YOU    = 'You';
-const H1_AFTER  = ',';
-const H1_LINE2  = 'Beyond the Programming.';
+const H1_BEFORE = 'The ';
+const H1_GLOW   = 'Sacred';
+const H1_LINE2  = 'Self';
 
 // ease-in-out: slow start, fast middle, slow end
 const easeInOut = (t: number) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
@@ -99,53 +98,31 @@ function GlowChar({ char, delay, cls = '', autoHoverDelay, mr = '-1px' }: {
       transition={{ duration: 0.6, delay, ease: [0.32, 0.72, 0, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      style={{ display: 'inline-block', position: 'relative', cursor: 'default', marginRight: mr }}
+      style={{
+        display: 'inline-block',
+        cursor: 'default',
+        marginRight: mr,
+        WebkitTextStroke: hovered ? '0.5px rgba(191,155,79,1)' : '0.5px rgba(191,155,79,0.85)',
+        backgroundImage: hovered
+          ? 'linear-gradient(to top, rgba(191,155,79,1) 0%, rgba(191,155,79,0.85) 40%, rgba(255,255,255,0.5) 100%)'
+          : 'linear-gradient(to top, rgba(191,155,79,0.85) 0%, rgba(191,155,79,0.5) 40%, rgba(255,255,255,0.35) 100%)',
+        WebkitBackgroundClip: 'text',
+        backgroundClip: 'text',
+        color: 'transparent',
+        WebkitTextFillColor: 'transparent',
+        transition: 'background-image 0.3s ease, -webkit-text-stroke-color 0.3s ease',
+      }}
     >
-      {/* Base letter */}
-      <span style={{
-        display: 'block',
-        color: hovered ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.14)',
-        WebkitTextStroke: hovered ? '0.5px rgba(147,197,253,0.95)' : '0.5px rgba(147,197,253,0.6)',
-        filter: hovered
-          ? 'drop-shadow(0 0 2px rgba(147,197,253,1)) drop-shadow(0 0 12px rgba(147,197,253,0.65))'
-          : 'drop-shadow(0 0 1px rgba(147,197,253,0.85)) drop-shadow(0 0 20px rgba(147,197,253,0.4))',
-        transition: 'color 0.3s ease, filter 0.3s ease, -webkit-text-stroke-color 0.3s ease',
-      }}>
-        {char}
-      </span>
-      {/* Gradient-from-bottom overlay */}
-      <span
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'block',
-          background: 'linear-gradient(to top, rgba(147,197,253,0.65) 0%, rgba(147,197,253,0.2) 35%, transparent 50%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          opacity: hovered ? 1 : 0,
-          transition: 'opacity 0.3s ease',
-        }}
-      >
-        {char}
-      </span>
+      {char}
     </motion.span>
   );
 }
 
-// Line 1 word splits (H1_BEFORE = 'Finally meet ', 13 chars)
-const W1_A = 'Finally '; // chars 0–7
-const W1_B = 'meet ';   // chars 8–12
-// H1_YOU = 'You' starts at index 13, H1_AFTER = ',' at 16
-
-// Line 2 word splits (H1_LINE2 = 'Beyond the Programming.', 23 chars)
-const W2_A = 'Beyond ';       // chars 0–6
-const W2_B = 'the ';          // chars 7–10
-const W2_C = 'Programming.';  // chars 11–22
+// Line 1: H1_BEFORE = 'The ' (chars 0–3), H1_GLOW = 'Sacred' starts at index 4
+// Line 2: H1_LINE2 = 'Self' — italic serif, per reference
 
 function H1RandomReveal({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
-  const totalLine1 = H1_BEFORE.length + H1_YOU.length + H1_AFTER.length;
+  const totalLine1 = H1_BEFORE.length + H1_GLOW.length;
 
   const delays1 = useMemo(
     () => Array.from({ length: totalLine1 }, () => 0.1 + Math.random() * 0.9),
@@ -158,42 +135,34 @@ function H1RandomReveal({ scrollYProgress }: { scrollYProgress: MotionValue<numb
     []
   );
 
-  const youStart = H1_BEFORE.length;
+  const glowStart = H1_BEFORE.length;
 
   return (
     <h1 className="font-serif font-normal text-[clamp(2.2rem,5vw,4.2rem)] leading-[1.05] tracking-[-0.01em] text-white max-w-3xl text-center">
       {/* Line 1 */}
       <WordExit scrollYProgress={scrollYProgress} start={0.00}>
-        <RandomChars text={W1_A} delays={delays1} offset={0} />
-      </WordExit>
-      <WordExit scrollYProgress={scrollYProgress} start={0.03}>
-        <RandomChars text={W1_B} delays={delays1} offset={8} />
+        <RandomChars text={H1_BEFORE} delays={delays1} offset={0} />
       </WordExit>
       <WordExit scrollYProgress={scrollYProgress} start={0.01}>
-        {H1_YOU.split('').map((char, i) => (
+        {H1_GLOW.split('').map((char, i) => (
           <GlowChar
             key={i}
             char={char}
-            delay={delays1[youStart + i]}
+            delay={delays1[glowStart + i]}
             cls="font-sans font-bold"
             autoHoverDelay={1800 + i * 150}
             mr={i === 0 ? '-3px' : '0px'}
           />
         ))}
-        <RandomChars text={H1_AFTER} delays={delays1} offset={youStart + H1_YOU.length} />
       </WordExit>
 
       <br />
 
       {/* Line 2 */}
-      <WordExit scrollYProgress={scrollYProgress} start={0.04}>
-        <RandomChars text={W2_A} delays={delays2} offset={0} />
-      </WordExit>
-      <WordExit scrollYProgress={scrollYProgress} start={0.02}>
-        <RandomChars text={W2_B} delays={delays2} offset={7} />
-      </WordExit>
-      <WordExit scrollYProgress={scrollYProgress} start={0.05}>
-        <RandomChars text={W2_C} delays={delays2} offset={11} />
+      <WordExit scrollYProgress={scrollYProgress} start={0.03}>
+        <span className="italic">
+          <RandomChars text={H1_LINE2} delays={delays2} offset={0} />
+        </span>
       </WordExit>
     </h1>
   );
@@ -261,26 +230,40 @@ export default function Hero() {
       />
 
       {/* Center content */}
-      <div className="relative z-10 flex flex-col items-center justify-center flex-1 text-center gap-10 px-8 pt-32 pb-16 w-full max-w-[1300px] mx-auto">
-        <motion.div style={{ y: h1Y, willChange: 'transform' }}>
+      <div className="relative z-10 flex flex-col items-center justify-center flex-1 text-center gap-8 px-8 pt-32 pb-16 w-full max-w-[1300px] mx-auto">
+        <motion.div style={{ y: h1Y, willChange: 'transform' }} className="flex flex-col items-center gap-6">
+          <motion.p
+            {...fadeUp(0.15)}
+            className="font-sans text-[13px] font-medium uppercase tracking-[0.35em]"
+            style={{ color: 'rgba(240,235,224,0.75)' }}
+          >
+            Welcome to
+          </motion.p>
           <H1RandomReveal scrollYProgress={scrollYProgress} />
         </motion.div>
 
-        <motion.div {...fadeUp(1.8)}>
+        <motion.p
+          {...fadeUp(1.3)}
+          className="font-sans text-[17px] md:text-[19px] leading-relaxed max-w-xl"
+          style={{ color: 'rgba(255,255,255,0.8)' }}
+        >
+          Reconnect to your light and restore balance, peace and harmony by releasing what no longer serves you.
+        </motion.p>
+
+        <motion.div {...fadeUp(1.8)} className="flex flex-wrap items-center justify-center gap-4">
           <a
-            href="#discover"
-            className="group inline-flex items-center gap-2 rounded-full active:scale-[0.98] px-5 py-2.5 text-[16px] font-medium font-sans transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
-            style={{ backgroundColor: '#f0ebe0', color: '#0d1b3e' }}
+            href="#contact"
+            className="inline-flex items-center rounded-full px-8 py-3.5 font-sans text-[12px] font-semibold uppercase tracking-[0.2em] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:opacity-90 active:scale-[0.98]"
+            style={{ backgroundColor: '#bf9b4f', color: '#12182e' }}
           >
-            Lets Discover You
-            <span
-              className="w-5 h-5 rounded-full flex items-center justify-center transition-transform duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105"
-              style={{ backgroundColor: 'rgba(13,27,62,0.12)' }}
-            >
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                <path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="#0d1b3e" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
+            Book Your Session
+          </a>
+          <a
+            href="#services"
+            className="inline-flex items-center rounded-full border px-8 py-3.5 font-sans text-[12px] font-semibold uppercase tracking-[0.2em] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white/10 active:scale-[0.98]"
+            style={{ borderColor: 'rgba(245,240,230,0.5)', color: '#f5f0e6' }}
+          >
+            Explore Services
           </a>
         </motion.div>
       </div>

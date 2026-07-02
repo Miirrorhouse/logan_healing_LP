@@ -1,227 +1,307 @@
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Plug } from '@phosphor-icons/react';
 
 const ease = [0.32, 0.72, 0, 1] as const;
 
+// Palette — faithful to the attached energy-healing "Services" section
+const CREAM = '#f5f0e6';
+const NAVY = '#0d1b3e';
+const INK = '#12182e';
+const GOLD = '#bf9b4f';
+const ICON = '#4e5a82';
+const BODY = 'rgba(18,24,46,0.62)';
+
+// Sacred geometry SVG icons — one per service
+const SeedOfLife = ({ className = 'w-10 h-10' }: { className?: string }) => (
+  <svg viewBox="0 0 48 48" fill="none" className={className} stroke="currentColor" strokeWidth="1.2">
+    <circle cx="24" cy="24" r="8" />
+    <circle cx="24" cy="16" r="8" />
+    <circle cx="24" cy="32" r="8" />
+    <circle cx="17.07" cy="20" r="8" />
+    <circle cx="30.93" cy="20" r="8" />
+    <circle cx="17.07" cy="28" r="8" />
+    <circle cx="30.93" cy="28" r="8" />
+  </svg>
+);
+
+const FlowerOfLife = ({ className = 'w-10 h-10' }: { className?: string }) => (
+  <svg viewBox="0 0 48 48" fill="none" className={className} stroke="currentColor" strokeWidth="1.2">
+    <circle cx="24" cy="24" r="9" />
+    <circle cx="24" cy="15" r="9" />
+    <circle cx="24" cy="33" r="9" />
+    <circle cx="16.2" cy="19.5" r="9" />
+    <circle cx="31.8" cy="19.5" r="9" />
+    <circle cx="16.2" cy="28.5" r="9" />
+    <circle cx="31.8" cy="28.5" r="9" />
+    <circle cx="24" cy="24" r="19" />
+  </svg>
+);
+
+const Merkaba = ({ className = 'w-10 h-10' }: { className?: string }) => (
+  <svg viewBox="0 0 48 48" fill="none" className={className} stroke="currentColor" strokeWidth="1.2">
+    <polygon points="24,4 43,38 5,38" />
+    <polygon points="24,44 5,10 43,10" />
+    <circle cx="24" cy="24" r="7" />
+  </svg>
+);
+
+const SriYantra = ({ className = 'w-10 h-10' }: { className?: string }) => (
+  <svg viewBox="0 0 48 48" fill="none" className={className} stroke="currentColor" strokeWidth="1.2">
+    <polygon points="24,5 43,37 5,37" />
+    <polygon points="24,43 5,11 43,11" />
+    <polygon points="24,11 40,35 8,35" />
+    <polygon points="24,37 8,13 40,13" />
+    <circle cx="24" cy="24" r="3.5" />
+    <circle cx="24" cy="24" r="19" />
+  </svg>
+);
+
+const Vesica = ({ className = 'w-10 h-10' }: { className?: string }) => (
+  <svg viewBox="0 0 48 48" fill="none" className={className} stroke="currentColor" strokeWidth="1.2">
+    <circle cx="18" cy="24" r="12" />
+    <circle cx="30" cy="24" r="12" />
+    <circle cx="24" cy="24" r="19" />
+  </svg>
+);
+
+const Torus = ({ className = 'w-10 h-10' }: { className?: string }) => (
+  <svg viewBox="0 0 48 48" fill="none" className={className} stroke="currentColor" strokeWidth="1.2">
+    <ellipse cx="24" cy="24" rx="19" ry="9" />
+    <ellipse cx="24" cy="24" rx="19" ry="19" />
+    <ellipse cx="24" cy="24" rx="7" ry="3.5" />
+    <line x1="24" y1="5" x2="24" y2="43" />
+    <line x1="5" y1="24" x2="43" y2="24" />
+  </svg>
+);
+
+const Metatron = ({ className = 'w-10 h-10' }: { className?: string }) => (
+  <svg viewBox="0 0 48 48" fill="none" className={className} stroke="currentColor" strokeWidth="1.2">
+    <circle cx="24" cy="24" r="19" />
+    <circle cx="24" cy="24" r="9" />
+    <polygon points="24,5 42,33 6,33" />
+    <polygon points="24,43 6,15 42,15" />
+    <line x1="24" y1="5" x2="24" y2="43" />
+    <line x1="6" y1="15" x2="42" y2="33" />
+    <line x1="42" y1="15" x2="6" y2="33" />
+  </svg>
+);
+
+const GoldenSpiral = ({ className = 'w-10 h-10' }: { className?: string }) => (
+  <svg viewBox="0 0 48 48" fill="none" className={className} stroke="currentColor" strokeWidth="1.2">
+    <circle cx="24" cy="24" r="19" />
+    <path d="M24,24 Q24,6 42,6 Q42,42 6,42 Q6,16 24,16 Q33,16 33,24 Q33,33 24,33 Q19,33 19,28 Q19,24 23,24" />
+  </svg>
+);
+
+const Octahedron = ({ className = 'w-10 h-10' }: { className?: string }) => (
+  <svg viewBox="0 0 48 48" fill="none" className={className} stroke="currentColor" strokeWidth="1.2">
+    <polygon points="24,4 43,24 24,44 5,24" />
+    <line x1="5" y1="24" x2="43" y2="24" />
+    <line x1="24" y1="4" x2="24" y2="44" />
+    <ellipse cx="24" cy="24" rx="19" ry="7" />
+    <circle cx="24" cy="24" r="3.5" />
+  </svg>
+);
+
 interface Service {
+  Icon: ({ className }: { className?: string }) => JSX.Element;
   name: string;
-  description: string;
-  price: string;
   duration: string;
   format: string;
-  color: string;
-  pulseDuration: number;
+  price: string;
+  description: string;
 }
 
 const services: Service[] = [
   {
+    Icon: SeedOfLife,
     name: 'Life Activation',
-    description: 'A foundational activation that awakens your dormant DNA and amplifies your connection to your higher self. This session clears energetic debris, strengthens your aura, and ignites a deeper sense of purpose, clarity, and vitality. Often the first step on the deeper energetic healing path.',
-    price: '$300',
     duration: '90–120 min',
-    format: 'In-Person',
-    color: '#1e3a8a',
-    pulseDuration: 4.2,
+    format: 'In-person',
+    price: '$300',
+    description:
+      'A foundational activation that awakens your dormant DNA and amplifies your connection to your higher self. This session clears energetic debris, strengthens your aura, and ignites a deeper sense of purpose, clarity, and vitality. Many clients experience a profound shift in how they feel in their own body and life. Often the first step on the deeper energetic healing path.',
   },
   {
+    Icon: FlowerOfLife,
     name: 'Full Spirit Activation',
-    description: 'A deeper activation that works with the full spectrum of your spiritual anatomy. Building on the Life Activation, this session integrates your higher spiritual bodies with your physical self, supporting greater coherence, expanded awareness, and a stronger embodiment of your soul\'s true nature.',
-    price: '$250',
     duration: '60–90 min',
-    format: 'In-Person',
-    color: '#172554',
-    pulseDuration: 5.7,
+    format: 'In-person',
+    price: '$250',
+    description:
+      "A deeper activation that works with the full spectrum of your spiritual anatomy. Building on the Life Activation, this session integrates your higher spiritual bodies with your physical self, supporting greater coherence, expanded awareness, and a stronger embodiment of your soul's true nature. Best experienced after Life Activation.",
   },
   {
+    Icon: Merkaba,
     name: 'Soul Retrieval',
-    description: 'Trauma, loss, and intense experiences can cause parts of the soul to fragment and withdraw. This session calls those pieces home, restoring wholeness, presence, and vitality. Clients often report feeling more complete, more grounded, and more fully themselves. Especially helpful after trauma, grief, or burnout.',
-    price: '$250',
     duration: '90 min',
-    format: 'In-Person',
-    color: '#1d3d70',
-    pulseDuration: 3.9,
-  },
-  {
-    name: 'Shamanic Aura Clearing',
-    description: 'Your aura holds the residue of past experiences, emotional wounds, and external influences. This clearing removes energetic debris, seals tears and leaks in the field, and restores the natural luminosity and protective integrity of your energy body.',
-    price: '$200',
-    duration: '60–75 min',
-    format: 'In-Person',
-    color: '#1e2d6b',
-    pulseDuration: 6.1,
-  },
-  {
-    name: 'Spark of Life Healing',
-    description: 'A powerful remote healing session that works directly with the life force at the core of your being. Distance is no barrier to energy. This session reignites your inner spark, clears stagnation, and supports you in returning to flow, wherever you are in the world.',
+    format: 'In-person',
     price: '$250',
+    description:
+      'Trauma, loss, and intense experiences can cause parts of the soul to fragment and withdraw. This session calls those pieces home, restoring wholeness, presence, and vitality. Clients often report feeling more complete, more grounded, and more fully themselves. Especially helpful after trauma, grief, or burnout.',
+  },
+  {
+    Icon: SriYantra,
+    name: 'Shamanic Aura Clearing',
+    duration: '60–75 min',
+    format: 'In-person',
+    price: '$200',
+    description:
+      'Your aura holds the residue of past experiences, emotional wounds, and external influences. This clearing removes energetic debris, seals tears and leaks in the field, and restores the natural luminosity and protective integrity of your energy body. Ideal if you frequently feel drained after social interactions or emotional exchanges.',
+  },
+  {
+    Icon: Vesica,
+    name: 'Spark of Life Healing',
     duration: '60–90 min',
     format: 'Remote',
-    color: '#162050',
-    pulseDuration: 4.8,
+    price: '$250',
+    description:
+      'A powerful remote healing session that works directly with the life force at the core of your being. Distance is no barrier to energy. This session reignites your inner spark, clears stagnation, and supports you in returning to flow, wherever you are in the world. Rest and receive — no effort required during the session.',
   },
   {
+    Icon: Torus,
     name: '11th Codon Reading',
-    description: 'A sacred reading that maps the blueprint of your soul, revealing your gifts, life purpose, karmic patterns, and spiritual contracts. This session offers profound clarity about the deeper architecture of your journey and why you are here.',
-    price: '$500',
     duration: '90–120 min',
-    format: 'In-Person',
-    color: '#1a3478',
-    pulseDuration: 5.3,
+    format: 'In-person',
+    price: '$500',
+    description:
+      'A sacred reading that maps the blueprint of your soul, revealing your gifts, life purpose, karmic patterns, and spiritual contracts. This session offers profound clarity about the deeper architecture of your journey and why you are here. You will walk away with a clearer compass for the path ahead.',
   },
   {
+    Icon: Metatron,
     name: 'Chakra Awakening',
-    description: 'More than a standard chakra balance, this session awakens and harmonises your entire energy system from the inside out. We clear blockages, align the subtle body, and strengthen the energetic spine so your physical, emotional, and spiritual layers move with greater coherence and vitality.',
-    price: '$150',
     duration: '60–75 min',
-    format: 'In-Person',
-    color: '#0f2460',
-    pulseDuration: 3.6,
+    format: 'In-person',
+    price: '$150',
+    description:
+      'More than a standard chakra balance, this session awakens and harmonizes your entire energy system from the inside out. We clear blockages, align the subtle body, and strengthen the energetic spine so your physical, emotional, and spiritual layers move with greater coherence and vitality. For those ready to feel something different.',
   },
   {
+    Icon: GoldenSpiral,
     name: 'Tree of Life Awakening',
-    description: 'This session activates the energetic Tree of Life within your subtle body — the architecture through which you manifest, create, and live from purpose. We remove structural blocks and support you in generating from your essence. For those ready to move beyond fixing into becoming.',
-    price: '$150',
     duration: '60–75 min',
-    format: 'In-Person',
-    color: '#1e3585',
-    pulseDuration: 6.7,
+    format: 'In-person',
+    price: '$150',
+    description:
+      'This session activates the energetic Tree of Life within your subtle body, the architecture through which you manifest, create, and live from purpose. We remove structural blocks, strengthen the connection between your higher self and daily reality, and support you in generating from your essence. For those ready to move beyond fixing into becoming.',
   },
   {
+    Icon: Octahedron,
     name: 'Crystal Gridding',
-    description: 'Your home or sacred space is an extension of your energy field. This session uses sacred geometric crystal grids to clear old imprints, activate the space\'s natural energetic design, and align your environment with your intentions. Aftercare guidance included.',
-    price: 'Contact for pricing',
     duration: 'Varies by space',
-    format: 'In-Person',
-    color: '#1b2d6e',
-    pulseDuration: 5.1,
+    format: 'In-person',
+    price: 'Contact for pricing',
+    description:
+      "Your home or sacred space is an extension of your energy field. This session uses sacred geometric crystal grids to clear old imprints, activate the space's natural energetic design, and align your environment with your intentions. Aftercare guidance is included on maintaining the grid. Your space becomes an active ally in your healing and growth.",
   },
 ];
 
-const fadeIn = {
-  initial: { opacity: 0 },
-  whileInView: { opacity: 1 },
+const fadeUp = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: '-60px' },
 };
 
 const gridVariants = {
   hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.09,
-      delayChildren: 0.2,
-    },
-  },
+  visible: { transition: { staggerChildren: 0.06 } },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 24, scale: 0.97 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.55, ease: [0.32, 0.72, 0, 1] },
-  },
+  hidden: { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease } },
 };
 
 export default function ServicesSection() {
   return (
-    <section className="py-24 md:py-32 px-6 sm:px-8" style={{ backgroundColor: '#0d1b3e' }}>
+    <section id="services" className="py-24 md:py-32 px-6 sm:px-8" style={{ backgroundColor: CREAM }}>
       <div className="max-w-[1300px] mx-auto">
-
-        {/* Eyebrow */}
-        <motion.div
-          {...fadeIn}
-          transition={{ duration: 0.5, ease }}
-          className="inline-block rounded-full px-4 py-1.5 mb-5"
-          style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
-        >
-          <span className="font-sans text-[16px] font-medium" style={{ color: 'rgba(240,235,224,0.55)' }}>
-            Total Transformation
-          </span>
+        {/* Section header */}
+        <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center mb-16">
+          <p
+            className="font-sans text-[12px] font-semibold uppercase tracking-[0.3em] mb-3"
+            style={{ color: ICON }}
+          >
+            What I Offer
+          </p>
+          <h2
+            className="font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.1] tracking-[-0.02em] mb-4"
+            style={{ color: INK }}
+          >
+            Healing Services
+          </h2>
+          <div className="w-20 h-px mx-auto mb-6" style={{ backgroundColor: GOLD }} />
+          <p className="font-sans font-light max-w-2xl mx-auto leading-relaxed" style={{ color: BODY }}>
+            Each session is tailored to your unique needs and intentions, meeting you exactly where
+            you are on your journey.
+          </p>
         </motion.div>
 
-        {/* Heading */}
-        <motion.h2
-          {...fadeIn}
-          transition={{ duration: 0.65, ease }}
-          className="font-serif font-normal text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.1] tracking-[-0.02em] max-w-lg mb-12 md:mb-16"
-          style={{ color: '#f0ebe0' }}
-        >
-          Everything you need to begin your transformation.
-        </motion.h2>
-
-        {/* Service cards */}
+        {/* Services grid — equal-height cards */}
         <motion.div
-          className="max-w-[1100px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-20 md:mb-28"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          style={{ gridAutoRows: '1fr' }}
           variants={gridVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-180px' }}
+          viewport={{ once: true, margin: '-120px' }}
         >
           {services.map((service) => (
             <motion.div
               key={service.name}
               variants={cardVariants}
-              className="group flex flex-col rounded-[8px] overflow-hidden cursor-pointer"
+              className="flex flex-col bg-white rounded-sm p-7 shadow-sm transition-all duration-500 hover:shadow-md hover:-translate-y-0.5"
+              style={{ border: '1px solid rgba(18,24,46,0.10)' }}
             >
-              {/* Colored pulsing top */}
-              <motion.div
-                className="flex items-center justify-center h-44"
-                style={{ backgroundColor: service.color }}
-                animate={{ filter: ['brightness(1)', 'brightness(1.08)', 'brightness(0.94)', 'brightness(1)'] }}
-                transition={{
-                  duration: service.pulseDuration,
-                  ease: 'easeInOut',
-                  repeat: Infinity,
-                  repeatType: 'loop',
-                }}
+              {/* Sacred geometry icon */}
+              <div className="mb-5 opacity-80" style={{ color: ICON }}>
+                <service.Icon />
+              </div>
+
+              {/* Name */}
+              <h3 className="font-serif font-semibold text-xl mb-3 leading-snug" style={{ color: INK }}>
+                {service.name}
+              </h3>
+
+              {/* Gold rule */}
+              <div className="w-8 h-px mb-4" style={{ backgroundColor: GOLD }} />
+
+              {/* Description */}
+              <p
+                className="font-sans font-light text-sm leading-relaxed flex-1 mb-5"
+                style={{ color: BODY }}
               >
-                <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-white/20 border border-white/30">
-                  <Plug weight="light" className="w-7 h-7 text-white" />
-                </div>
-              </motion.div>
+                {service.description}
+              </p>
 
-              {/* Card body */}
-              <div className="flex flex-col flex-1 bg-zinc-900 px-5 pt-5 pb-5">
-                {/* Name + arrow */}
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <span className="font-sans text-[16px] font-semibold leading-snug text-white">
-                    {service.name}
-                  </span>
-                  <ArrowUpRight
-                    weight="regular"
-                    className="w-4 h-4 shrink-0 mt-0.5 text-white/40 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white"
-                  />
-                </div>
-
-                {/* Description */}
-                <p className="font-sans text-[13px] leading-relaxed mb-5" style={{ color: 'rgba(240,235,224,0.45)' }}>
-                  {service.description}
-                </p>
-
-                {/* Divider */}
-                <div className="w-full h-px mb-4" style={{ backgroundColor: 'rgba(255,255,255,0.08)' }} />
-
-                {/* Price + tags */}
-                <div className="flex items-center justify-between gap-2 flex-wrap mb-4">
-                  <span className="font-sans text-[18px] font-semibold text-white">
+              {/* Price + meta badges + booking button */}
+              <div className="mt-auto pt-4" style={{ borderTop: '1px solid rgba(18,24,46,0.08)' }}>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-serif font-semibold text-lg" style={{ color: INK }}>
                     {service.price}
                   </span>
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="rounded-full px-2.5 py-1 font-sans text-[11px] font-medium tracking-wide" style={{ backgroundColor: 'rgba(255,255,255,0.08)', color: 'rgba(240,235,224,0.5)' }}>
+                  <div className="flex gap-2">
+                    <span
+                      className="text-[0.55rem] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-sm"
+                      style={{ color: ICON, backgroundColor: 'rgba(78,90,130,0.10)' }}
+                    >
                       {service.duration}
                     </span>
-                    <span className="rounded-full px-2.5 py-1 font-sans text-[11px] font-medium tracking-wide" style={{ backgroundColor: 'rgba(255,255,255,0.08)', color: 'rgba(240,235,224,0.5)' }}>
+                    <span
+                      className="text-[0.55rem] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-sm"
+                      style={
+                        service.format === 'Remote'
+                          ? { color: GOLD, backgroundColor: 'rgba(191,155,79,0.15)' }
+                          : { color: ICON, backgroundColor: 'rgba(78,90,130,0.10)' }
+                      }
+                    >
                       {service.format}
                     </span>
                   </div>
                 </div>
-
-                {/* Book button */}
                 <a
                   href="#contact"
-                  className="flex items-center justify-center w-full rounded-lg py-3 font-sans text-[12px] font-semibold tracking-widest uppercase transition-opacity duration-300 hover:opacity-80 active:scale-[0.98]"
-                  style={{ backgroundColor: '#f0ebe0', color: '#0d1b3e' }}
+                  className="flex items-center justify-center w-full py-2.5 rounded-sm text-[0.6rem] font-semibold uppercase tracking-[0.2em] transition-all duration-300 hover:opacity-90 active:scale-[0.98]"
+                  style={{ backgroundColor: NAVY, color: CREAM }}
                 >
                   Book This Session
                 </a>
@@ -229,8 +309,6 @@ export default function ServicesSection() {
             </motion.div>
           ))}
         </motion.div>
-
-
       </div>
     </section>
   );

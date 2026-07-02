@@ -86,7 +86,7 @@ const CYCLE_MS = 5000;
 function StatArrow({ trend, isActive }: { trend: 'up' | 'down'; isActive: boolean }) {
   return (
     <div className="relative flex h-9 w-9 shrink-0 items-center justify-center">
-      <div className="absolute inset-0 rounded-full" style={{ backgroundColor: 'rgba(240,235,224,0.08)' }} />
+      <div className="absolute inset-0 rounded-full" style={{ backgroundColor: 'rgba(13,27,62,0.08)' }} />
       <svg
         className="absolute inset-0 w-full h-full -rotate-90"
         viewBox="0 0 36 36"
@@ -96,7 +96,7 @@ function StatArrow({ trend, isActive }: { trend: 'up' | 'down'; isActive: boolea
           key={isActive ? 'active' : 'idle'}
           cx="18" cy="18" r="15"
           fill="none"
-          stroke="#60a5fa"
+          stroke="#bf9b4f"
           strokeWidth="2"
           strokeLinecap="round"
           initial={{ pathLength: 0 }}
@@ -104,7 +104,7 @@ function StatArrow({ trend, isActive }: { trend: 'up' | 'down'; isActive: boolea
           transition={{ duration: isActive ? CYCLE_MS / 1000 : 0, ease: 'linear' }}
         />
       </svg>
-      <span className="relative z-10" style={{ color: 'rgba(240,235,224,0.7)' }}>
+      <span className="relative z-10" style={{ color: 'rgba(13,27,62,0.7)' }}>
         {trend === 'up'
           ? <ArrowUp className="w-4 h-4" weight="bold" />
           : <ArrowDown className="w-4 h-4" weight="bold" />}
@@ -134,25 +134,53 @@ export default function OptionsSection() {
     <section
       id="discover"
       className="relative py-24 md:py-32 px-6 sm:px-8"
-      style={{ backgroundColor: '#0d1b3e' }}
+      style={{ backgroundColor: '#f5f0e6' }}
       aria-labelledby="options-heading"
     >
       <div className="max-w-[1300px] mx-auto">
+        {/* Why energy healing callout */}
+        <motion.div
+          {...fadeUp}
+          transition={{ ...fadeUp.transition, delay: 0.05 }}
+          className="mb-20 md:mb-28 rounded-2xl p-10 md:p-14 text-center max-w-4xl mx-auto"
+          style={{ backgroundColor: '#0d1b3e' }}
+        >
+          <h3 className="font-serif text-3xl md:text-4xl mb-6" style={{ color: '#f5f0e6' }}>
+            The mind can only reach so far.
+          </h3>
+          <div className="w-16 h-px mx-auto mb-6" style={{ backgroundColor: '#bf9b4f' }} />
+          <p
+            className="font-sans font-light max-w-2xl mx-auto leading-relaxed mb-4"
+            style={{ color: 'rgba(245,240,230,0.75)' }}
+          >
+            You're not just a mind. You're energy, spirit, and soul. Some things live in the body, in
+            the nervous system, in the soul, and no amount of logic can touch them.
+          </p>
+          <p
+            className="font-sans font-light max-w-2xl mx-auto leading-relaxed"
+            style={{ color: 'rgba(245,240,230,0.75)' }}
+          >
+            Energy healing isn't a replacement for the work you've already done. It's what clears what
+            the mind can't reach. If you've done all the work and still feel stuck, you're not broken,
+            but it is time to break the glass ceiling and transcend the mind.
+          </p>
+        </motion.div>
+
         <motion.div
           className="flex flex-col items-center text-center mb-24 md:mb-32"
           {...fadeUp}
           transition={{ ...fadeUp.transition, delay: 0.05 }}
         >
-          <span className="mb-5 inline-block rounded-full px-4 py-1.5 font-sans text-[16px] font-medium" style={{ backgroundColor: 'rgba(240,235,224,0.08)', color: 'rgba(240,235,224,0.5)' }}>
+          <span className="mb-5 inline-block rounded-full px-4 py-1.5 font-sans text-[16px] font-medium" style={{ backgroundColor: 'rgba(13,27,62,0.06)', color: 'rgba(13,27,62,0.55)' }}>
             Our options
           </span>
           <RandomRevealHeading
             text="Where your deepest work takes root"
             className="font-serif font-normal text-[clamp(2.5rem,5.5vw,3.75rem)] leading-[1.08] tracking-[-0.02em] max-w-2xl mb-8 text-center"
-            style={{ color: '#f0ebe0' }}
+            style={{ color: '#12182e' }}
           />
 
-          <p className="font-sans font-normal text-[16px] leading-relaxed max-w-xl" style={{ color: 'rgba(240,235,224,0.5)' }}>
+          <p className="font-sans font-normal text-[16px] leading-relaxed max-w-xl" style={{ color: 'rgba(18,24,46,0.6)' }}>
             Ten kilograms lighter. Breath in the belly. Shoulders that finally let go — and a quiet sense that you're no longer at war with where you are.
           </p>
         </motion.div>
@@ -193,11 +221,8 @@ export default function OptionsSection() {
                 <PastelSquareGridBackground className="absolute inset-0 h-full w-full pointer-events-none mix-blend-screen opacity-60" />
               </span>
 
-              {/* Top row: eyebrow + title */}
+              {/* Top row: title */}
               <div className="relative z-10 flex flex-col gap-1">
-                <span className={`font-mono text-[12px] md:text-[13px] tracking-wide uppercase ${item.tagClass}`}>
-                  {item.tag}
-                </span>
                 <h3 className="font-sans font-normal text-white text-[clamp(1.3rem,2.5vw,1.875rem)] leading-tight max-w-[18ch]">
                   {item.title}
                 </h3>
@@ -221,7 +246,7 @@ export default function OptionsSection() {
           {...fadeUp}
           transition={{ ...fadeUp.transition, delay: 0.08 }}
         >
-          <p className="font-sans text-[13px] md:text-sm" style={{ color: 'rgba(240,235,224,0.4)' }}>
+          <p className="font-sans text-[13px] md:text-sm" style={{ color: 'rgba(13,27,62,0.45)' }}>
             Why this works
           </p>
         </motion.div>
@@ -237,23 +262,23 @@ export default function OptionsSection() {
               onClick={() => startCycle(i)}
               onMouseEnter={() => startCycle(i)}
               className={`group relative px-2 sm:px-4 lg:px-8 text-center lg:text-left cursor-pointer ${
-                i > 0 ? 'lg:border-l lg:border-white/10' : ''
+                i > 0 ? 'lg:border-l lg:border-[#0d1b3e]/10' : ''
               }`}
             >
               <div className={`flex flex-row items-center gap-3 justify-center lg:justify-start mb-4 transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeIndex === i ? 'opacity-100' : 'opacity-40'}`}>
                 <div className="flex items-center gap-1">
-                  <span className="font-sans font-normal text-[48px] leading-none tracking-tight" style={{ color: '#f0ebe0' }}>
+                  <span className="font-sans font-normal text-[48px] leading-none tracking-tight" style={{ color: '#12182e' }}>
                     {stat.number}
                   </span>
                   {stat.suffix && (
-                    <span className="font-sans font-normal text-[24px] leading-none tracking-tight self-center" style={{ color: '#f0ebe0' }}>
+                    <span className="font-sans font-normal text-[24px] leading-none tracking-tight self-center" style={{ color: '#12182e' }}>
                       {stat.suffix}
                     </span>
                   )}
                 </div>
                 <StatArrow trend={stat.trend} isActive={activeIndex === i} />
               </div>
-              <p className={`font-sans text-[16px] leading-relaxed max-w-[260px] mx-auto lg:mx-0 transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeIndex === i ? 'opacity-100' : 'opacity-40'}`} style={{ color: 'rgba(240,235,224,0.55)' }}>
+              <p className={`font-sans text-[16px] leading-relaxed max-w-[260px] mx-auto lg:mx-0 transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeIndex === i ? 'opacity-100' : 'opacity-40'}`} style={{ color: 'rgba(18,24,46,0.6)' }}>
                 {stat.copy}
               </p>
             </motion.div>

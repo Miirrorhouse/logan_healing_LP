@@ -1,174 +1,136 @@
-import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Star, Sparkle, BookOpen, Heart } from '@phosphor-icons/react';
 import loganHeadshot from '../assets/img/logan-headshot_4a01f551.png';
 
 const ease = [0.32, 0.72, 0, 1] as const;
 
+// Palette — elevated Organic Earth & Luminous Aura
+const CREAM = '#f5f0e6';
+const NAVY = '#0d1b3e';
+const INK = '#12182e';
+const GOLD = '#bf9b4f';
+const BODY = 'rgba(18,24,46,0.68)';
+
 const credentials = [
-  'Life Activation Practitioner, Modern Mystery School',
-  'Second-Step Ritual Master, Lineage of King Solomon',
-  'Trained in Metaphysics & Light Work',
+  { Icon: Star, text: 'Life Activation Practitioner' },
+  { Icon: Sparkle, text: 'Healer' },
+  { Icon: BookOpen, text: 'Second-Step Ritual Master' },
+  { Icon: Heart, text: 'Student of Metaphysics and Kabbalah' },
 ];
 
-const colContainer = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
-};
-
-const child = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
-};
+const bioParagraphs = [
+  "I used to think healing was something you could figure out. Go to therapy, discover your patterns, have the insights, grow in self awareness and heal old wounds. And for awhile this worked, until it didn't. I eventually reached a point where I understood everything but still felt like I was hitting a glass ceiling or a plateau.",
+  "No amount of logic could touch what lived deeper in my body, what was buried in my subconscious, held in my energy and stored in my spirit. I wouldn't say that I went searching, but I knew something was missing. That something was the light.",
+  "This is when I stepped into the unknown, an ancient spiritual path, thousands of years old in the lineage of King Solomon and through the Modern Mystery School. The exploration didn't start because I understood it, but because I could feel my soul calling for something beyond what the mind could comprehend.",
+  "To call it uncomfortable at first is an understatement, but slowly something began to shift. At the time I didn't have the words for it, but now I know it to be a shift in frequency and energy that restored my light, joy, presence and peace.",
+  'Now, I work as a Life Activation Practitioner, Healer and Second Step Ritual Master in the lineage of King Solomon. I continue to train in metaphysics through the Modern Mystery School and carry tools of light work to help others remember who they are beyond the limitations of the mind.',
+];
 
 export default function AboutSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  const animate = inView ? 'visible' : 'hidden';
-
   return (
-    <section
-      ref={sectionRef}
-      className="py-24 md:py-32 px-6 sm:px-8"
-      style={{ backgroundColor: '#0d1b3e' }}
-    >
+    <section id="about" className="py-24 md:py-32 px-6 sm:px-8" style={{ backgroundColor: CREAM }}>
       <div className="max-w-[1300px] mx-auto">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 max-w-[1100px] mx-auto">
+        <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
 
-          {/* Left column — its own stagger container */}
+          {/* Portrait */}
           <motion.div
-            className="flex flex-col gap-3 lg:w-1/2 lg:self-stretch"
-            variants={colContainer}
-            initial="hidden"
-            animate={animate}
+            initial={{ opacity: 0, x: -32 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.9, ease }}
+            className="relative"
           >
-            {/* Image */}
-            <motion.div
-              variants={child}
-              className="overflow-hidden rounded-[8px] w-4/5"
-              style={{ aspectRatio: '1/1' }}
-            >
-              <img
-                src={loganHeadshot.src}
-                alt="Logan Lepper, Energy Healer"
-                className="w-full h-full object-cover object-top"
-              />
-            </motion.div>
+            {/* Decorative background shapes */}
+            <div
+              className="absolute -top-6 -left-6 w-full h-full rounded-2xl -z-10"
+              style={{ backgroundColor: 'rgba(13,27,62,0.08)' }}
+            />
+            <div
+              className="absolute -bottom-4 -right-4 w-3/4 h-3/4 rounded-2xl -z-10"
+              style={{ backgroundColor: 'rgba(191,155,79,0.12)' }}
+            />
 
-            {/* Credential cards */}
-            {credentials.map((cred) => (
-              <motion.div
-                key={cred}
-                variants={child}
-                className="flex items-start gap-4 rounded-[8px] px-5 py-4 w-fit"
-                style={{ backgroundColor: 'rgba(255,255,255,0.07)' }}
+            <img
+              src={loganHeadshot.src}
+              alt="Logan Lepper, Energy Healer"
+              className="w-full max-w-sm mx-auto md:mx-0 rounded-2xl object-cover object-top shadow-2xl"
+              style={{ aspectRatio: '3/4' }}
+            />
+
+            {/* Floating credential badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.7, ease, delay: 0.35 }}
+              className="absolute -bottom-6 -right-4 md:-right-8 rounded-xl px-5 py-4 shadow-xl max-w-[220px]"
+              style={{ backgroundColor: NAVY }}
+            >
+              <p
+                className="font-sans text-[0.55rem] font-semibold uppercase tracking-[0.2em] mb-1"
+                style={{ color: GOLD }}
               >
-                <span
-                  className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}
-                  aria-hidden="true"
-                >
-                  <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                    <path d="M1 4l2.5 2.5L9 1" stroke="#f0ebe0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-                <span className="font-sans text-[15px] leading-snug" style={{ color: '#f0ebe0' }}>
-                  {cred}
-                </span>
-              </motion.div>
-            ))}
-
-            {/* School badge */}
-            <motion.div
-              variants={child}
-              className="inline-flex items-center gap-3 rounded-[8px] px-5 py-4 self-start"
-              style={{ backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}
-            >
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <circle cx="7" cy="7" r="6" stroke="#f0ebe0" strokeWidth="1.2" />
-                  <circle cx="7" cy="7" r="2" fill="#f0ebe0" />
-                </svg>
-              </div>
-              <div>
-                <p className="font-sans text-[13px] font-medium" style={{ color: '#f0ebe0' }}>Modern Mystery School</p>
-                <p className="font-sans text-[12px]" style={{ color: 'rgba(240,235,224,0.5)' }}>Lineage of King Solomon</p>
-              </div>
+                Initiate in the Lineage of King Solomon
+              </p>
+              <p className="font-serif text-sm font-semibold leading-snug" style={{ color: CREAM }}>
+                Modern Mystery School
+              </p>
             </motion.div>
           </motion.div>
 
-          {/* Right column — its own stagger container, delayed so left goes first */}
+          {/* Text */}
           <motion.div
-            className="flex-1"
-            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.3 } } }}
-            initial="hidden"
-            animate={animate}
+            initial={{ opacity: 0, x: 32 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.9, ease, delay: 0.2 }}
           >
-            <motion.div
-              variants={child}
-              className="inline-block rounded-full px-4 py-1.5 mb-5"
-              style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+            <h2
+              className="font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.1] tracking-[-0.02em] mb-6"
+              style={{ color: INK }}
             >
-              <span className="font-sans text-[16px] font-medium" style={{ color: 'rgba(240,235,224,0.55)' }}>
-                About the Teacher
-              </span>
-            </motion.div>
+              Meet Logan Lepper
+            </h2>
 
-            <motion.h2
-              variants={child}
-              className="font-serif font-normal text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.1] tracking-[-0.02em] mb-8"
-              style={{ color: '#f0ebe0' }}
-            >
-              Life Activation Practitioner, Healer and Second Step Ritual Master
-            </motion.h2>
+            <div
+              className="w-16 h-px mb-6"
+              style={{
+                background: 'linear-gradient(to right, rgba(191,155,79,0.6), transparent)',
+              }}
+            />
 
-            <motion.p
-              variants={child}
-              className="font-sans text-[17px] leading-relaxed mb-5"
-              style={{ color: 'rgba(240,235,224,0.65)' }}
-            >
-              No amount of logic could touch what lived deeper in my body — what was buried in my subconscious, held in my energy, and stored in my spirit. I wouldn't have believed it was possible to shift those layers until I experienced it myself.
-            </motion.p>
+            <div className="flex flex-col gap-4 mb-8">
+              {bioParagraphs.map((para, i) => (
+                <p key={i} className="font-sans font-light text-base leading-relaxed" style={{ color: BODY }}>
+                  {para}
+                </p>
+              ))}
+            </div>
 
-            <motion.p
-              variants={child}
-              className="font-sans text-[17px] leading-relaxed mb-5"
-              style={{ color: 'rgba(240,235,224,0.65)' }}
-            >
-              This is when I stepped into the unknown: an ancient spiritual path, thousands of years old, in the lineage of King Solomon and through the Modern Mystery School. The exploration didn't begin comfortably. To call it uncomfortable at first is an understatement — but slowly something began to shift.
-            </motion.p>
+            {/* Closing pull-quote */}
+            <blockquote className="pl-5 mb-8" style={{ borderLeft: `2px solid ${GOLD}` }}>
+              <p className="font-serif italic text-lg leading-relaxed" style={{ color: NAVY }}>
+                "You don't have to do it alone. If you're ready to come home to yourself, I'm here to
+                walk with you."
+              </p>
+            </blockquote>
 
-            <motion.p
-              variants={child}
-              className="font-sans text-[17px] leading-relaxed"
-              style={{ color: 'rgba(240,235,224,0.65)' }}
-            >
-              At the time I didn't have the words for what was changing. Only that I felt lighter. More myself. As if parts of me that had been held under pressure for years were finally allowed to breathe.
-            </motion.p>
-
-            <motion.p
-              variants={child}
-              className="mt-8 font-sans text-[15px] font-medium tracking-wide"
-              style={{ color: 'rgba(240,235,224,0.35)' }}
-            >
-              — Logan Lepper, Energy Healer
-            </motion.p>
+            {/* Credentials */}
+            <div className="flex flex-col gap-3">
+              {credentials.map(({ Icon, text }) => (
+                <div key={text} className="flex items-center gap-3">
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{ backgroundColor: 'rgba(13,27,62,0.1)' }}
+                  >
+                    <Icon size={14} weight="light" style={{ color: NAVY }} />
+                  </div>
+                  <span className="font-sans text-sm" style={{ color: 'rgba(18,24,46,0.8)' }}>
+                    {text}
+                  </span>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
         </div>

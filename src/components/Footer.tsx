@@ -15,7 +15,7 @@ export default function Footer() {
   return (
     <footer
       className="px-6 sm:px-8 pt-16 pb-10"
-      style={{ backgroundColor: '#050e22', borderTop: '1px solid rgba(255,255,255,0.06)' }}
+      style={{ backgroundColor: '#081228', borderTop: '1px solid rgba(191,155,79,0.15)' }}
     >
       <div className="max-w-[1300px] mx-auto">
 
@@ -30,7 +30,7 @@ export default function Footer() {
             transition={{ duration: 0.55, ease }}
             className="max-w-xs"
           >
-            <p className="font-sans text-[14px] font-medium tracking-widest uppercase mb-4" style={{ color: 'rgba(240,235,224,0.35)' }}>
+            <p className="font-sans text-[14px] font-medium tracking-widest uppercase mb-4" style={{ color: '#bf9b4f' }}>
               Logan Lepper
             </p>
             <p className="font-serif italic text-[1.1rem] leading-relaxed" style={{ color: 'rgba(240,235,224,0.55)' }}>
@@ -69,10 +69,14 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.65, ease, delay: 0.1 }}
-          className="border-t pt-8 mb-8"
-          style={{ borderColor: 'rgba(255,255,255,0.06)' }}
+          className="pt-8 mb-8"
+          style={{
+            borderTop: '1px solid transparent',
+            borderImage:
+              'linear-gradient(to right, transparent, rgba(191,155,79,0.5), transparent) 1',
+          }}
         >
-          <p className="font-serif italic text-center text-[1rem]" style={{ color: 'rgba(240,235,224,0.25)' }}>
+          <p className="font-serif italic text-center text-[1rem]" style={{ color: 'rgba(191,155,79,0.6)' }}>
             "Healing is not fixing — it is remembering wholeness."
           </p>
         </motion.div>

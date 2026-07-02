@@ -4,6 +4,13 @@ import { Plus, Minus } from '@phosphor-icons/react';
 
 const ease = [0.32, 0.72, 0, 1] as const;
 
+// Palette — elevated Organic Earth & Luminous Aura
+const CREAM = '#f5f0e6';
+const NAVY = '#0d1b3e';
+const INK = '#12182e';
+const GOLD = '#bf9b4f';
+const BODY = 'rgba(18,24,46,0.62)';
+
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
@@ -13,7 +20,7 @@ const fadeUp = {
 const faqs = [
   {
     q: 'Do I need to believe in energy healing for it to work?',
-    a: 'Not at all. Energy healing works with the body\'s own innate intelligence — your belief is welcome but not required. Many people arrive skeptical and find that their direct experience becomes its own answer. An open curiosity is all that is needed.',
+    a: "Not at all. Energy healing works with the body's own innate intelligence — your belief is welcome but not required. Many people arrive skeptical and find that their direct experience becomes its own answer. An open curiosity is all that is needed.",
   },
   {
     q: 'What does an energy session actually feel like?',
@@ -25,7 +32,7 @@ const faqs = [
   },
   {
     q: 'Is energy healing a replacement for medical treatment?',
-    a: 'Energy healing is a complementary practice and is not intended to replace conventional medical care. It works beautifully alongside medical treatment, supporting the body\'s natural healing processes, reducing stress, and strengthening the energetic field that underlies physical health.',
+    a: "Energy healing is a complementary practice and is not intended to replace conventional medical care. It works beautifully alongside medical treatment, supporting the body's natural healing processes, reducing stress, and strengthening the energetic field that underlies physical health.",
   },
   {
     q: 'How do distance healing sessions work?',
@@ -37,7 +44,7 @@ const faqs = [
   },
   {
     q: 'What is your cancellation policy?',
-    a: 'I ask for at least 24 hours\' notice for cancellations or rescheduling. This allows me to offer the time to someone else who may need it. Life happens — please reach out as soon as you know and we will find a solution together.',
+    a: "I ask for at least 24 hours' notice for cancellations or rescheduling. This allows me to offer the time to someone else who may need it. Life happens — please reach out as soon as you know and we will find a solution together.",
   },
 ];
 
@@ -50,18 +57,28 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, ease, delay: index * 0.05 }}
       className="border-b"
-      style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+      style={{ borderColor: 'rgba(18,24,46,0.12)' }}
     >
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-start justify-between gap-6 py-6 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+        className="group w-full flex items-start justify-between gap-4 py-5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#bf9b4f]/60 focus-visible:ring-offset-2"
         aria-expanded={open}
       >
-        <span className="font-sans text-[17px] font-medium leading-snug" style={{ color: '#f0ebe0' }}>
+        <span
+          className="font-serif text-base md:text-lg leading-snug transition-colors duration-300"
+          style={{ color: INK }}
+        >
           {q}
         </span>
-        <span className="shrink-0 mt-0.5" style={{ color: 'rgba(240,235,224,0.45)' }}>
-          {open ? <Minus weight="regular" className="w-5 h-5" /> : <Plus weight="regular" className="w-5 h-5" />}
+        <span
+          className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center mt-0.5 transition-colors duration-300"
+          style={{ backgroundColor: 'rgba(13,27,62,0.08)' }}
+        >
+          {open ? (
+            <Minus size={13} weight="bold" style={{ color: NAVY }} />
+          ) : (
+            <Plus size={13} weight="bold" style={{ color: NAVY }} />
+          )}
         </span>
       </button>
       <AnimatePresence initial={false}>
@@ -74,7 +91,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
             transition={{ duration: 0.4, ease }}
             className="overflow-hidden"
           >
-            <p className="pb-6 font-sans text-[16px] leading-relaxed max-w-2xl" style={{ color: 'rgba(240,235,224,0.6)' }}>
+            <p className="pb-5 font-sans font-light text-sm leading-relaxed" style={{ color: BODY }}>
               {a}
             </p>
           </motion.div>
@@ -86,52 +103,58 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
 
 export default function FAQSection() {
   return (
-    <section className="py-24 md:py-32 px-6 sm:px-8" style={{ backgroundColor: '#0d1b3e' }}>
+    <section id="faq" className="py-24 md:py-32 px-6 sm:px-8" style={{ backgroundColor: CREAM }}>
       <div className="max-w-[1300px] mx-auto">
+        {/* Header */}
+        <motion.div {...fadeUp} transition={{ duration: 0.7, ease }} className="text-center mb-14">
+          <p
+            className="font-sans text-[12px] font-semibold uppercase tracking-[0.3em] mb-4"
+            style={{ color: GOLD }}
+          >
+            Common Questions
+          </p>
+          <h2
+            className="font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.1] tracking-[-0.02em] mb-4"
+            style={{ color: INK }}
+          >
+            Frequently Asked
+          </h2>
+          <p className="font-serif italic text-lg max-w-xl mx-auto" style={{ color: NAVY }}>
+            Everything you need to know before beginning your healing journey
+          </p>
+          <div
+            className="w-20 h-px mx-auto mt-6"
+            style={{
+              background:
+                'linear-gradient(to right, transparent, rgba(191,155,79,0.6), transparent)',
+            }}
+          />
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-16 lg:gap-24">
-
-          {/* Left — heading */}
-          <div className="lg:sticky lg:top-28 self-start">
-            <motion.div
-              {...fadeUp}
-              transition={{ duration: 0.5, ease }}
-              className="inline-block rounded-full px-4 py-1.5 mb-5"
-              style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
-            >
-              <span className="font-sans text-[16px] font-medium" style={{ color: 'rgba(240,235,224,0.55)' }}>
-                FAQ
-              </span>
-            </motion.div>
-
-            <motion.h2
-              {...fadeUp}
-              transition={{ duration: 0.65, ease, delay: 0.05 }}
-              className="font-serif font-normal text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.1] tracking-[-0.02em] mb-6"
-              style={{ color: '#f0ebe0' }}
-            >
-              Everything you need to know before beginning your healing journey.
-            </motion.h2>
-
-            <motion.p
-              {...fadeUp}
-              transition={{ duration: 0.55, ease, delay: 0.1 }}
-              className="font-sans text-[16px] leading-relaxed"
-              style={{ color: 'rgba(240,235,224,0.5)' }}
-            >
-              Still have questions? I would love to hear from you — reach out and I will respond within 24 hours.
-            </motion.p>
-          </div>
-
-          {/* Right — accordion */}
-          <div>
-            {faqs.map((item, i) => (
-              <FAQItem key={item.q} q={item.q} a={item.a} index={i} />
-            ))}
-          </div>
-
+        {/* FAQ list */}
+        <div className="max-w-3xl mx-auto">
+          {faqs.map((item, i) => (
+            <FAQItem key={item.q} q={item.q} a={item.a} index={i} />
+          ))}
         </div>
 
+        {/* Still have questions */}
+        <motion.div
+          {...fadeUp}
+          transition={{ duration: 0.7, ease, delay: 0.3 }}
+          className="text-center mt-12"
+        >
+          <p className="font-sans font-light mb-4" style={{ color: BODY }}>
+            Still have questions?
+          </p>
+          <a
+            href="#contact"
+            className="font-serif italic text-lg underline underline-offset-4 transition-colors duration-300 hover:opacity-70"
+            style={{ color: NAVY }}
+          >
+            Send me a message
+          </a>
+        </motion.div>
       </div>
     </section>
   );
