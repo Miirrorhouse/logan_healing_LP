@@ -31,7 +31,7 @@ export default function Footer() {
             className="max-w-xs"
           >
             <p className="font-sans text-[14px] font-medium tracking-widest uppercase mb-4" style={{ color: '#bf9b4f' }}>
-              Logan Lepper
+              The Sacred Self
             </p>
             <p className="font-serif italic text-[1.1rem] leading-relaxed" style={{ color: 'rgba(240,235,224,0.55)' }}>
               "Restoring balance. Releasing what no longer serves. Reconnecting you with your inner light."
@@ -84,7 +84,7 @@ export default function Footer() {
         {/* Bottom row */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <p className="font-sans text-[13px]" style={{ color: 'rgba(240,235,224,0.2)' }}>
-            © {new Date().getFullYear()} Logan Lepper. All rights reserved.
+            © {new Date().getFullYear()} The Sacred Self. All rights reserved.
           </p>
           <p className="font-sans text-[13px]" style={{ color: 'rgba(240,235,224,0.2)' }}>
             Modern Mystery School · Lineage of King Solomon

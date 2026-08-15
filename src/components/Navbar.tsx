@@ -43,7 +43,7 @@ export default function Navbar() {
               className="font-semibold text-[16px] tracking-tight font-sans transition-colors duration-500"
               style={{ color: logoText }}
             >
-              Logan
+              The Sacred Self
             </span>
           </a>
 

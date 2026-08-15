@@ -33,7 +33,7 @@ export default function VideoSection() {
         >
           <video
             ref={videoRef}
-            src="/videos/full_activation.mov"
+            src="/videos/full_activation.mp4"
             className="absolute inset-0 w-full h-full object-cover"
             style={{ borderRadius: '20px' }}
             playsInline

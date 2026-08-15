@@ -19,7 +19,7 @@ const offerings = [
     title: 'Full Life Activation',
     href: '#service',
     gradient: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 45%, #38bdf8 100%)',
-    video: '/videos/full_activation.mov',
+    video: '/videos/full_activation.mp4',
     ariaLabel: 'Full Life Activation — learn more',
   },
   {
@@ -28,7 +28,7 @@ const offerings = [
     title: 'Spirit Activation',
     href: '#service',
     gradient: 'linear-gradient(135deg, #052e1a 0%, #14532d 50%, #22c55e 100%)',
-    video: '/videos/spirit_activation.mov',
+    video: '/videos/spirit_activation.mp4',
     ariaLabel: 'Spirit Activation — learn more',
   },
 ];
