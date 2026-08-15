@@ -168,9 +168,29 @@ function H1RandomReveal({ scrollYProgress }: { scrollYProgress: MotionValue<numb
   );
 }
 
+const HERO_VIDEO_LANDSCAPE = '/videos/hero_landscape.mp4';
+const HERO_VIDEO_PORTRAIT  = '/videos/hero_portrait.mp4';
+
+// Resolves after mount so only the matching cut is ever downloaded.
+// Components are client:only, so there is no SSR pass to mismatch.
+function useHeroVideoSrc() {
+  const [src, setSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(orientation: portrait)');
+    const apply = () => setSrc(mq.matches ? HERO_VIDEO_PORTRAIT : HERO_VIDEO_LANDSCAPE);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, []);
+
+  return src;
+}
+
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const heroVideoRef = useRef<HTMLVideoElement>(null);
+  const heroVideoSrc = useHeroVideoSrc();
 
   useEffect(() => {
     const video = heroVideoRef.current;
@@ -181,7 +201,7 @@ export default function Hero() {
     };
     video.addEventListener('ended', handleEnded);
     return () => video.removeEventListener('ended', handleEnded);
-  }, []);
+  }, [heroVideoSrc]);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
@@ -209,16 +229,20 @@ export default function Hero() {
           willChange: 'transform',
         }}
       >
-        <video
-          ref={heroVideoRef}
-          src="/videos/healing_hero_vid.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          aria-hidden="true"
-        />
+        {heroVideoSrc && (
+          <video
+            key={heroVideoSrc}
+            ref={heroVideoRef}
+            src={heroVideoSrc}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover"
+            aria-hidden="true"
+          />
+        )}
       </motion.div>
       {/* Blue overlay with bottom gradient blend */}
       <div

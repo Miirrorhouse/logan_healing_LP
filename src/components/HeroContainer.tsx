@@ -64,6 +64,9 @@ export default function HeroContainer() {
       <FeelingsSection />
 
       {/* Gem: absolute so it tracks viewport during fly-in, then sticks with content */}
+      {/* The gem clip has no alpha channel — it is a bright crystal matted on pure
+          black. Screen-blending drops the black to nothing so it composites over
+          the hero footage instead of showing a box. */}
       {vh > 0 && (
         <motion.div
           style={{
@@ -74,23 +77,13 @@ export default function HeroContainer() {
             scale: gemScale,
             zIndex: 50,
             pointerEvents: 'none',
+            mixBlendMode: 'screen',
           }}
         >
           <div className="relative flex items-center justify-center">
-            <div
-              aria-hidden="true"
-              style={{
-                position: 'absolute',
-                width: '72px',
-                height: '72px',
-                borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.1) 45%, transparent 70%)',
-                filter: 'blur(6px)',
-              }}
-            />
             <video
               ref={gemVideoRef}
-              src="/videos/gem_video_3.mov"
+              src="/videos/gem_video_3.mp4"
               autoPlay
               muted
               loop
