@@ -1,7 +1,6 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef, useMemo, useState, useEffect } from 'react';
-import { ArrowRight, ArrowDown, ArrowUp } from '@phosphor-icons/react';
-import PastelSquareGridBackground from './PastelSquareGridBackground';
+import { Fragment, useRef, useMemo, useState, useEffect } from 'react';
+import { ArrowDown, ArrowUp } from '@phosphor-icons/react';
 
 const ease = [0.32, 0.72, 0, 1] as const;
 
@@ -11,27 +10,6 @@ const fadeUp = {
   viewport: { once: true, margin: '-60px' },
   transition: { duration: 0.65, ease },
 };
-
-const offerings = [
-  {
-    tag: 'Delightful',
-    tagClass: 'text-sky-300',
-    title: 'Full Life Activation',
-    href: '#service',
-    gradient: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 45%, #38bdf8 100%)',
-    video: '/videos/full_activation.mp4',
-    ariaLabel: 'Full Life Activation — learn more',
-  },
-  {
-    tag: 'Supercharged',
-    tagClass: 'text-emerald-300',
-    title: 'Spirit Activation',
-    href: '#service',
-    gradient: 'linear-gradient(135deg, #052e1a 0%, #14532d 50%, #22c55e 100%)',
-    video: '/videos/spirit_activation.mp4',
-    ariaLabel: 'Spirit Activation — learn more',
-  },
-];
 
 const stats = [
   {
@@ -64,18 +42,31 @@ function RandomRevealHeading({ text, className, style }: { text: string; classNa
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+  // Group chars by word so lines wrap between words and stay centered
+  let charIndex = 0;
+  const words = text.split(' ').map((word) => {
+    const start = charIndex;
+    charIndex += word.length + 1;
+    return { word, start };
+  });
   return (
     <h2 ref={ref} className={className} style={style}>
-      {text.split('').map((char, i) => (
-        <motion.span
-          key={i}
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.5, delay: delays[i], ease: [0.32, 0.72, 0, 1] }}
-          style={{ display: 'inline', whiteSpace: char === ' ' ? 'pre' : 'normal' }}
-        >
-          {char}
-        </motion.span>
+      {words.map(({ word, start }, w) => (
+        <Fragment key={w}>
+          <span className="whitespace-nowrap">
+            {word.split('').map((char, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0 }}
+                animate={inView ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ duration: 0.5, delay: delays[start + i], ease: [0.32, 0.72, 0, 1] }}
+              >
+                {char}
+              </motion.span>
+            ))}
+          </span>
+          {w < words.length - 1 && ' '}
+        </Fragment>
       ))}
     </h2>
   );
@@ -167,7 +158,7 @@ export default function OptionsSection() {
         </motion.div>
 
         <motion.div
-          className="flex flex-col items-center text-center mb-24 md:mb-32"
+          className="flex flex-col items-center text-center mb-12 md:mb-16"
           {...fadeUp}
           transition={{ ...fadeUp.transition, delay: 0.05 }}
         >
@@ -184,62 +175,6 @@ export default function OptionsSection() {
             Ten kilograms lighter. Breath in the belly. Shoulders that finally let go — and a quiet sense that you're no longer at war with where you are.
           </p>
         </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6 mb-20 md:mb-28">
-          {offerings.map((item, i) => (
-            <motion.a
-              key={item.title}
-              href={item.href}
-              className="group relative overflow-hidden rounded-[8px] aspect-[640/463] flex flex-col justify-start p-8 md:p-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 active:scale-[0.99] transition-transform duration-200"
-              style={{ background: item.gradient }}
-              aria-label={item.ariaLabel}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.65, delay: 0.12 + i * 0.08, ease }}
-            >
-              {item.video && (
-                <video
-                  className="absolute inset-0 w-full h-full object-cover"
-                  src={item.video}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  aria-hidden="true"
-                />
-              )}
-
-              {/* Dark overlay — fades out on hover */}
-              <span className="absolute inset-0 bg-black/30 transition-opacity duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:opacity-0 pointer-events-none" aria-hidden="true" />
-
-              {/* Top gradient — fades in on hover to protect text legibility */}
-              <span className="absolute inset-x-0 top-0 h-40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 100%)' }} aria-hidden="true" />
-
-              {/* Square grid overlay — fades out on hover */}
-              <span className="absolute inset-0 transition-opacity duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:opacity-0 pointer-events-none overflow-hidden" aria-hidden="true">
-                <PastelSquareGridBackground className="absolute inset-0 h-full w-full pointer-events-none mix-blend-screen opacity-60" />
-              </span>
-
-              {/* Top row: title */}
-              <div className="relative z-10 flex flex-col gap-1">
-                <h3 className="font-sans font-normal text-white text-[clamp(1.3rem,2.5vw,1.875rem)] leading-tight max-w-[18ch]">
-                  {item.title}
-                </h3>
-              </div>
-
-              {/* Book A Session CTA — appears on hover, bottom left */}
-              <div className="absolute bottom-8 left-8 md:bottom-10 md:left-10 z-10">
-                <span
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-sans text-[14px] font-medium text-zinc-900 opacity-0 translate-y-2 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:opacity-100 group-hover:translate-y-0"
-                >
-                  Book A Session
-                  <ArrowRight className="w-3.5 h-3.5" weight="regular" />
-                </span>
-              </div>
-            </motion.a>
-          ))}
-        </div>
 
         <motion.div
           className="text-center mt-10 mb-8 md:mt-12 md:mb-10"
