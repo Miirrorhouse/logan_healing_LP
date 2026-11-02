@@ -172,7 +172,7 @@ export default function OptionsSection() {
           />
 
           <p className="font-sans font-normal text-[16px] leading-relaxed max-w-xl" style={{ color: 'rgba(18,24,46,0.6)' }}>
-            There's a part of you that exists beyond the fear, doubt, and stories you've collected throughout your life. Healing is about creating the space to reconnect with that part of yourself. To find your center again and begin living from a place of greater awareness, trust, and intention.
+            Beyond the fear, doubt, and stories you've carried is a deeper part of who you are. Healing creates the space to reconnect with yourself and move forward with greater awareness, trust, and intention.
           </p>
         </motion.div>
 
