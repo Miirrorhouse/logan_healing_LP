@@ -166,13 +166,13 @@ export default function OptionsSection() {
             Our options
           </span>
           <RandomRevealHeading
-            text="Where your deepest work takes root"
+            text="Reconnect With What's Already Within You"
             className="font-serif font-normal text-[clamp(2.5rem,5.5vw,3.75rem)] leading-[1.08] tracking-[-0.02em] max-w-2xl mb-8 text-center"
             style={{ color: '#12182e' }}
           />
 
           <p className="font-sans font-normal text-[16px] leading-relaxed max-w-xl" style={{ color: 'rgba(18,24,46,0.6)' }}>
-            Ten kilograms lighter. Breath in the belly. Shoulders that finally let go — and a quiet sense that you're no longer at war with where you are.
+            There's a part of you that exists beyond the fear, doubt, and stories you've collected throughout your life. Healing is about creating the space to reconnect with that part of yourself. To find your center again and begin living from a place of greater awareness, trust, and intention.
           </p>
         </motion.div>
 
