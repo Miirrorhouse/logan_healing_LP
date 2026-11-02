@@ -6,37 +6,37 @@ const ease = [0.32, 0.72, 0, 1] as const;
 
 const feelings = [
   {
-    label: 'Anxious',
+    label: 'Anxiety',
     heading: 'Your nervous system has been holding so much.',
     body: 'Anxiety is often the body\'s signal that something deeper needs tending. Through Aura Clearing and Energetic Emotional Clearing, we release the charge stored in your field — so your system can finally exhale.',
     service: 'Aura Clearing',
   },
   {
-    label: 'Not Enough',
+    label: 'Self Acceptance',
     heading: 'That voice isn\'t yours — and it can be returned.',
     body: 'The "not enough" story is one of the most common imprints we carry from others. Soul Retrieval helps reclaim the parts of you that went quiet to survive. What comes back is steadier, fuller, yours.',
     service: 'Soul Retrieval',
   },
   {
-    label: 'Nervous',
+    label: 'Stress & Overwhelm',
     heading: 'Nervousness is energy without a home.',
     body: 'When your chakras are misaligned, even small moments can feel overwhelming. Chakra Awakening brings your energy centers back into coherence — so you move through life with ground beneath you.',
     service: 'Chakra Awakening',
   },
   {
-    label: 'Self-Critical',
+    label: 'Fear & Self-Doubt',
     heading: 'The inner critic is a cord — and it can be cut.',
     body: 'That relentless internal voice is often not even your own. Cord Cutting severs the energetic ties that feed self-criticism and self-doubt, returning you to a quieter, kinder relationship with yourself.',
     service: 'Cord Cutting',
   },
   {
-    label: 'Low Self-Worth',
+    label: 'Deepening Spiritual Connection',
     heading: 'Your worth was never something you lost.',
     body: 'Low self-worth usually traces back to early imprints, not truth. The Tree of Life Awakening reconnects you to your original nature — the self that exists before the conditioning told you otherwise.',
     service: 'Tree of Life Awakening',
   },
   {
-    label: 'Disconnected',
+    label: 'Finding Purpose',
     heading: 'Feeling distant from yourself is more common than you know.',
     body: 'Disconnection often means a part of you stepped away to cope. The Full Life Activation brings you back into contact with your own presence — body, spirit, and sense of direction included.',
     service: 'Full Life Activation',
@@ -80,12 +80,9 @@ export default function FeelingsSection() {
           transition={{ duration: 0.65, ease }}
           className="mb-10 md:mb-12 text-center"
         >
-          <h2 className="font-serif font-normal text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.08] tracking-[-0.02em] mb-3" style={{ color: '#f0ebe0' }}>
+          <h2 className="font-serif font-normal text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.08] tracking-[-0.02em]" style={{ color: '#f0ebe0' }}>
             What brings you here today?
           </h2>
-          <p className="font-sans text-[16px] leading-relaxed" style={{ color: 'rgba(240,235,224,0.5)' }}>
-            Choose what resonates. Every feeling is a doorway.
-          </p>
         </motion.div>
 
         {/* Pills */}
@@ -98,7 +95,7 @@ export default function FeelingsSection() {
           className="flex flex-col items-center gap-2.5 mb-8 md:mb-10"
         >
           {[feelings.slice(0, 3), feelings.slice(3)].map((row, rowIdx) => (
-            <div key={rowIdx} className="flex gap-2.5">
+            <div key={rowIdx} className="flex flex-wrap justify-center gap-2.5">
               {row.map((f, i) => {
                 const idx = rowIdx * 3 + i;
                 return (
