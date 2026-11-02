@@ -193,6 +193,21 @@ const RadiantLight = ({ className = "w-10 h-10" }: { className?: string }) => (
   </svg>
 );
 
+const Crystal = ({ className = "w-10 h-10" }: { className?: string }) => (
+  <svg
+    viewBox="0 0 48 48"
+    fill="none"
+    className={className}
+    stroke="currentColor"
+    strokeWidth="1.2"
+  >
+    <polygon points="24,3 35,14 31,45 17,45 13,14" />
+    <polyline points="13,14 24,19 35,14" />
+    <line x1="24" y1="3" x2="24" y2="19" />
+    <line x1="24" y1="19" x2="24" y2="45" />
+  </svg>
+);
+
 interface Service {
   Icon: ({ className }: { className?: string }) => JSX.Element;
   name: string;
@@ -297,6 +312,13 @@ const services: Service[] = [
     price: "$100",
     description:
       "A gentle, luminous session that bathes your energy body in light to dissolve heaviness, stagnant emotion, and lower vibrations you may have absorbed. You leave feeling cleansed, uplifted, and more at peace in your own field. A beautiful reset for anyone feeling weighed down or out of alignment.",
+  },
+  {
+    Icon: Crystal,
+    name: "Crystal Healing",
+    price: "$250",
+    description:
+      "Crystals carry stable, coherent frequencies that your energy body naturally attunes to. In this session, carefully chosen stones are placed on and around the body to draw out stagnant energy, rebalance your chakras, and restore a calm, steady flow through your whole system. Clients often leave feeling grounded, clear, and deeply rested.",
   },
 ];
 
