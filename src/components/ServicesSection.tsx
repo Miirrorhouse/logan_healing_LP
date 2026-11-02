@@ -237,22 +237,18 @@ const services: Service[] = [
       "A deeper activation that works with the full spectrum of your spiritual anatomy. Building on the Life Activation, this session integrates your higher spiritual bodies with your physical self, supporting greater coherence, expanded awareness, and a stronger embodiment of your soul's true nature. Best experienced after Life Activation.",
   },
   {
-    Icon: Merkaba,
-    name: "Soul Retrieval",
-    duration: "90 min",
-    format: "In-person",
-    price: "$250",
+    Icon: SeveredCord,
+    name: "Cord Cutting",
+    price: "$100",
     description:
-      "Trauma, loss, and intense experiences can cause parts of the soul to fragment and withdraw. This session calls those pieces home, restoring wholeness, presence, and vitality. Clients often report feeling more complete, more grounded, and more fully themselves. Especially helpful after trauma, grief, or burnout.",
+      "Over time we form energetic cords with people, places, and past experiences, and some of them keep draining us long after they have served their purpose. This session identifies and releases those attachments, returning your energy to you so you can move forward lighter, clearer, and more fully your own.",
   },
   {
-    Icon: SriYantra,
-    name: "Shamanic Aura Clearing",
-    duration: "60–75 min",
-    format: "In-person",
-    price: "$200",
+    Icon: RadiantLight,
+    name: "Purification by Light",
+    price: "$100",
     description:
-      "Your aura holds the residue of past experiences, emotional wounds, and external influences. This clearing removes energetic debris, seals tears and leaks in the field, and restores the natural luminosity and protective integrity of your energy body. Ideal if you frequently feel drained after social interactions or emotional exchanges.",
+      "A gentle, luminous session that bathes your energy body in light to dissolve heaviness, stagnant emotion, and lower vibrations you may have absorbed. You leave feeling cleansed, uplifted, and more at peace in your own field. A beautiful reset for anyone feeling weighed down or out of alignment.",
   },
   {
     Icon: Vesica,
@@ -291,6 +287,31 @@ const services: Service[] = [
       "This session activates the energetic Tree of Life within your subtle body, the architecture through which you manifest, create, and live from purpose. We remove structural blocks, strengthen the connection between your higher self and daily reality, and support you in generating from your essence. For those ready to move beyond fixing into becoming.",
   },
   {
+    Icon: Crystal,
+    name: "Crystal Healing",
+    price: "$250",
+    description:
+      "Crystals carry stable, coherent frequencies that your energy body naturally attunes to. In this session, carefully chosen stones are placed on and around the body to draw out stagnant energy, rebalance your chakras, and restore a calm, steady flow through your whole system. Clients often leave feeling grounded, clear, and deeply rested.",
+  },
+  {
+    Icon: Merkaba,
+    name: "Soul Retrieval",
+    duration: "90 min",
+    format: "In-person",
+    price: "$250",
+    description:
+      "Trauma, loss, and intense experiences can cause parts of the soul to fragment and withdraw. This session calls those pieces home, restoring wholeness, presence, and vitality. Clients often report feeling more complete, more grounded, and more fully themselves. Especially helpful after trauma, grief, or burnout.",
+  },
+  {
+    Icon: SriYantra,
+    name: "Shamanic Aura Clearing",
+    duration: "60–75 min",
+    format: "In-person",
+    price: "$200",
+    description:
+      "Your aura holds the residue of past experiences, emotional wounds, and external influences. This clearing removes energetic debris, seals tears and leaks in the field, and restores the natural luminosity and protective integrity of your energy body. Ideal if you frequently feel drained after social interactions or emotional exchanges.",
+  },
+  {
     Icon: Octahedron,
     name: "Crystal Gridding",
     duration: "Varies by space",
@@ -298,27 +319,6 @@ const services: Service[] = [
     price: "Contact for pricing",
     description:
       "Your home or sacred space is an extension of your energy field. This session uses sacred geometric crystal grids to clear old imprints, activate the space's natural energetic design, and align your environment with your intentions. Aftercare guidance is included on maintaining the grid. Your space becomes an active ally in your healing and growth.",
-  },
-  {
-    Icon: SeveredCord,
-    name: "Cord Cutting",
-    price: "$100",
-    description:
-      "Over time we form energetic cords with people, places, and past experiences, and some of them keep draining us long after they have served their purpose. This session identifies and releases those attachments, returning your energy to you so you can move forward lighter, clearer, and more fully your own.",
-  },
-  {
-    Icon: RadiantLight,
-    name: "Purification by Light",
-    price: "$100",
-    description:
-      "A gentle, luminous session that bathes your energy body in light to dissolve heaviness, stagnant emotion, and lower vibrations you may have absorbed. You leave feeling cleansed, uplifted, and more at peace in your own field. A beautiful reset for anyone feeling weighed down or out of alignment.",
-  },
-  {
-    Icon: Crystal,
-    name: "Crystal Healing",
-    price: "$250",
-    description:
-      "Crystals carry stable, coherent frequencies that your energy body naturally attunes to. In this session, carefully chosen stones are placed on and around the body to draw out stagnant energy, rebalance your chakras, and restore a calm, steady flow through your whole system. Clients often leave feeling grounded, clear, and deeply rested.",
   },
 ];
 
